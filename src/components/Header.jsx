@@ -110,7 +110,7 @@ function Header() {
               </li>
             </NavLink>
             <NavLink to="/all-users" key="all-users">
-              <li className="hover:text-gray-400 cursor-pointer flex justify-center items-center gap-x-1">
+              <li className="hover:text-blue-600 cursor-pointer flex justify-center items-center gap-x-1">
                 Authors
               </li>
             </NavLink>

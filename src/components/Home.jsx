@@ -83,12 +83,11 @@ const Home = ({ username }) => {
                 transition={{ duration: 1 }}
                 className=" text-gray-900 text-sm mt-5"
               >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-                ullam nisi debitis officiis hic ratione atque. Fuga quis
-                veritatis nulla aperiam possimus at quam praesentium velit porro
-                dolores Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Iste ullam nisi debitis officiis hic ratione atqula aperiam
-                possimus at quam praesentium velit porro dolores
+                Welcome to our BlogBeacon, a platform designed with you in mind.
+                Whether you&apos;re a seasoned writer or just starting, our app
+                offers a seamless and engaging experience. With powerful content
+                management tools, and robust community features, it&apos;s never
+                been easier to share your stories and connect with readers.
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: -50 }}
@@ -96,12 +95,9 @@ const Home = ({ username }) => {
                 transition={{ duration: 1 }}
                 className=" text-gray-900 text-sm mx-6"
               >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-                ullam nisi debitis officiis hic ratione atque. Fuga quis
-                veritatis nulla aperiam possimus at quam praesentium velit porro
-                dolores Lorem ipsum dolor sit amet con officiis hic ratione
-                atque. Fuga quis veritatis nulla aperiam possimus at quam
-                praesentium velit porro dolores
+                Plus, our built-in SEO tools and analytics help you grow your
+                audience and understand your readers better. Join us today and
+                take your blogging to the next level!
               </motion.p>
             </div>
           </Reveal>
