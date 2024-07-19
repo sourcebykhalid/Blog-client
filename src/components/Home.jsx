@@ -187,7 +187,7 @@ const Home = ({ username }) => {
           </div>
         </Reveal>
       </div>
-      <p className=" w-full text-center text-sm text-blue-gray-400 md:text-base bg-green-400 p-2">
+      <p className=" w-full text-center text-sm text-blue-gray-900 md:text-base bg-green-400 p-2">
         © Khalid | blogBeacon, 2024. All rights reserved.
       </p>
     </div>
