@@ -3,8 +3,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authActions } from "../redux/store";
 import { useDispatch } from "react-redux";
+import { authActions } from "../redux/store";
+
 const SimpleLoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const SimpleLoginForm = () => {
     email: "",
     password: "",
   });
+
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
@@ -23,7 +25,7 @@ const SimpleLoginForm = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "https://blog-backend-v95w.onrender.com/api/v1/user/login",
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/user/login`,
         {
           email: inputs.email,
           password: inputs.password,
@@ -31,7 +33,7 @@ const SimpleLoginForm = () => {
       );
 
       if (data.success) {
-        localStorage.setItem("userId", data?.user._id);
+        localStorage.setItem("userId", data.user._id);
         dispatch(authActions.login());
         toast.success("User Logged in Successfully");
         navigate("/");
@@ -40,14 +42,15 @@ const SimpleLoginForm = () => {
       }
     } catch (error) {
       toast.error("Please enter correct login credentials");
+      console.log(error);
     }
   };
 
   return (
-    <div className="flex justify-center   w-full h-screen md:pt-20 ">
+    <div className="flex justify-center w-full h-screen md:pt-20">
       <Card color="transparent" shadow={false}>
         <Typography
-          className=" flex justify-center bg-yellow-300 border-2 border-gray-400 rounded-md font-bold"
+          className="flex justify-center bg-yellow-300 border-2 border-gray-400 rounded-md font-bold"
           variant="h3"
           color="blue-gray"
         >
@@ -77,7 +80,7 @@ const SimpleLoginForm = () => {
               name="email"
               value={inputs.email}
               onChange={handleChange}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
@@ -92,18 +95,17 @@ const SimpleLoginForm = () => {
               name="password"
               value={inputs.password}
               onChange={handleChange}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
             />
           </div>
-
           <Button type="submit" className="mt-6" fullWidth>
             Login
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
-            Dont have an account?{" "}
+            Don’t have an account?{" "}
             <a
               onClick={() => navigate("/register")}
               className="font-medium text-gray-900 cursor-pointer"

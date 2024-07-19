@@ -26,7 +26,7 @@ const BlogDetails = () => {
   const getBlogDetail = async () => {
     try {
       const { data } = await axios.get(
-        `https://blog-backend-v95w.onrender.com/api/v1/blog/get-blog/${id}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/get-blog/${id}`
       );
       if (data?.success) {
         setBlog(data.blog);
@@ -64,7 +64,7 @@ const BlogDetails = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `https://blog-backend-v95w.onrender.com/api/v1/blog/update-blog/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/update-blog/${id}`,
         {
           title: inputs.title,
           description: inputs.description,

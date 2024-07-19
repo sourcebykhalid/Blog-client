@@ -24,7 +24,7 @@ const Home = ({ username }) => {
     const fetchBlogs = async () => {
       try {
         const { data } = await axios.get(
-          "https://blog-backend-v95w.onrender.com/api/v1/blog/all-blogs"
+          `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/all-blogs`
         );
         if (data?.success) {
           const sortedBlogs = data.blogs.sort(

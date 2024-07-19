@@ -18,7 +18,7 @@ const CommentSection = () => {
     const fetchComments = async () => {
       try {
         const { data } = await axios.get(
-          `https://blog-backend-v95w.onrender.com/api/v1/comments/${id}`
+          `${import.meta.env.VITE_API_BASE_URL}/api/v1/comments/${id}`
         );
         if (data?.success) {
           setComments(data.comments);
@@ -36,7 +36,7 @@ const CommentSection = () => {
 
     try {
       const { data } = await axios.post(
-        "https://blog-backend-v95w.onrender.com/api/v1/comments/add-comment",
+        "${import.meta.env.VITE_API_BASE_URL}/api/v1/comments/add-comment",
         { content, userId, blogId: id }
       );
       if (data?.success) {

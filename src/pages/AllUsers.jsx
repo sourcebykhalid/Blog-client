@@ -9,7 +9,7 @@ function AllUsers() {
     const fetchUserProfile = async () => {
       try {
         const { data } = await axios.get(
-          `https://blog-backend-v95w.onrender.com/api/v1/user/all-users`
+          `${import.meta.env.VITE_API_BASE_URL}/api/v1/user/all-users`
         );
 
         if (data?.success) {

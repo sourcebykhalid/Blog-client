@@ -13,6 +13,7 @@ const GetBlog = () => {
   const userId = localStorage.getItem("userId");
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleEdit = () => {
@@ -22,13 +23,14 @@ const GetBlog = () => {
   const handleDelete = async () => {
     try {
       const { data } = await axios.delete(
-        `https://blog-backend-v95w.onrender.com/api/v1/blog/delete-blog/${id}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/delete-blog/${id}`
       );
       if (data?.success) {
         toast.success("Blog deleted");
         navigate("/all-blogs");
       }
     } catch (error) {
+      toast.error("Error deleting blog");
       console.log(error);
     }
   };
@@ -37,7 +39,7 @@ const GetBlog = () => {
     const fetchBlog = async () => {
       try {
         const { data } = await axios.get(
-          `https://blog-backend-v95w.onrender.com/api/v1/blog/get-blog/${id}`
+          `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/get-blog/${id}`
         );
         if (data?.success) {
           setBlog(data.blog);
@@ -47,6 +49,8 @@ const GetBlog = () => {
       } catch (error) {
         toast.error("Error fetching blog details");
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -64,8 +68,12 @@ const GetBlog = () => {
     return new Date(dateString).toLocaleString("en-US", options);
   };
 
-  if (!blog) {
+  if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (!blog) {
+    return <div>No blog found</div>;
   }
 
   return (

@@ -63,7 +63,7 @@ const CreateBlog = () => {
       console.log("Submitting form with inputs:", inputs);
 
       const { data } = await axios.post(
-        `https://blog-backend-v95w.onrender.com/api/v1/blog/create-blog`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/create-blog`,
         {
           title: inputs.title,
           description: inputs.description,

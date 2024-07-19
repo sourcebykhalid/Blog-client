@@ -27,7 +27,9 @@ function Profile() {
         setLoading(true); // Start loading
 
         const { data } = await axios.get(
-          `https://blog-backend-v95w.onrender.com/api/v1/user/current-user/${userId}`
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/v1/user/current-user/${userId}`
         );
 
         if (data?.success) {

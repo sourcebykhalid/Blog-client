@@ -22,7 +22,9 @@ const UserDetails = () => {
     const userId = localStorage.getItem("userId");
     try {
       const { data } = await axios.get(
-        `https://blog-backend-v95w.onrender.com/api/v1/user/current-user/${userId}`
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/v1/user/current-user/${userId}`
       );
       if (data?.success) {
         setUser(data.userProfile);
@@ -53,7 +55,9 @@ const UserDetails = () => {
     try {
       const userId = localStorage.getItem("userId");
       const { data } = await axios.put(
-        `https://blog-backend-v95w.onrender.com/api/v1/user/update-user/${userId}`,
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/v1/user/update-user/${userId}`,
         {
           username: inputs.username,
           email: inputs.email,

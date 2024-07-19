@@ -8,7 +8,7 @@ function UserBlogs() {
     try {
       const id = localStorage.getItem("userId");
       const { data } = await axios.get(
-        `https://blog-backend-v95w.onrender.com/api/v1/blog/user-blog/${id}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/user-blog/${id}`
       );
       if (data?.success) {
         setBlogs(data?.userBlog.blogs);
