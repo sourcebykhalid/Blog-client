@@ -77,8 +77,8 @@ const GetBlog = () => {
   }
 
   return (
-    <div className="flex flex-col items-center mt-2">
-      <div className="flex flex-col md:flex-row justify-around py-1 md:py-2 items-center w-full md:w-2/4 bg-gradient-to-br from-teal-200 via-gray-300 to-lime-300">
+    <div className="flex flex-col md:flex-row justify-between items-start pt-24 gap-x-3">
+      <div className="flex flex-col  justify-center py-1 md:py-2 items-center w-full bg-gradient-to-br from-teal-200 via-gray-300 to-lime-300 h-full">
         <Typography variant="h6">
           <div className="flex gap-x-2 justify-center items-center font-bold text-lg md:text-xl">
             <img
@@ -92,17 +92,18 @@ const GetBlog = () => {
         <Typography className="text-sm">
           {formatDate(blog.createdAt)}
         </Typography>
+
+        {blog.image && (
+          <img
+            src={blog.image}
+            alt={blog.title}
+            className=" md:w-1/2 h-[32rem] p-3 bg-cover rounded-md mb-4"
+          />
+        )}
+        <Typography variant="h2" className="text-sm text-blue-500">
+          #{blog.category}
+        </Typography>
       </div>
-      {blog.image && (
-        <img
-          src={blog.image}
-          alt={blog.title}
-          className="md:w-2/4 md:h-96 p-3 bg-cover rounded-md mb-4"
-        />
-      )}
-      <Typography variant="h2" className="text-sm text-blue-500">
-        #{blog.category}
-      </Typography>
       <div className="flex flex-col md:w-2/3 px-3 md:px-0">
         <div className="flex justify-between items-center md:mx-10">
           <Typography variant="h2" className="text-lg md:text-2xl font-bold">
@@ -128,8 +129,8 @@ const GetBlog = () => {
           </div>
         </div>
         <Typography>{blog.description}</Typography>
+        <CommentSection /> {/* Add the CommentSection component here */}
       </div>
-      <CommentSection /> {/* Add the CommentSection component here */}
     </div>
   );
 };

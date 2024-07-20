@@ -58,7 +58,7 @@ const Home = ({ username }) => {
   };
 
   return (
-    <div className=" bg-gray-400">
+    <div className=" bg-blend-hue bg-gray-100">
       {/* Hero Section */}
       <div className="relative  w-full text-gray-500 flex justify-center items-center py-40 ">
         <div className="relative z-10 text-center px-4 leading-[3rem]">
@@ -104,7 +104,7 @@ const Home = ({ username }) => {
         </div>
       </div>
       {!isLogin && (
-        <div className="flex justify-center items-center text-xl gap-x-3 bg-gray-400 font-semibold px-4 py-2 md:w-1/2 mx-auto shadow-md shadow-green-200">
+        <div className="flex justify-center items-center text-xl gap-x-3 bg-gray-400 font-semibold px-4 py-2 md:w-1/2 mx-auto shadow-md shadow-green-200 mb-5 md:mb-12">
           Please <Button onClick={() => navigate("/login")}>Login</Button> to
           add posts
         </div>
@@ -183,7 +183,7 @@ const Home = ({ username }) => {
           </div>
         </Reveal>
       </div>
-      <p className=" w-full text-center text-sm text-blue-gray-900 md:text-base bg-green-400 p-2">
+      <p className=" w-full text-center text-sm text-gray-100/70 md:text-base bg-orange-900/90 backdrop-blur-md p-2">
         © Khalid | blogBeacon, 2024. All rights reserved.
       </p>
     </div>
