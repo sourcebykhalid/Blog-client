@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Input } from "@material-tailwind/react";
 import toast from "react-hot-toast";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
 
 const CommentSection = () => {
   const { id } = useParams(); // Blog ID
@@ -16,10 +14,9 @@ const CommentSection = () => {
 
   useEffect(() => {
     const fetchComments = async () => {
+      const apiUrl = import.meta.env.VITE_API_BASE_URL;
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/v1/comments/${id}`
-        );
+        const { data } = await axios.get(`${apiUrl}/api/v1/comments/${id}`);
         if (data?.success) {
           setComments(data.comments);
         }
@@ -33,10 +30,10 @@ const CommentSection = () => {
 
   const handleAddComment = async () => {
     if (!content.trim()) return;
-
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/comments/add-comment`,
+        `${apiUrl}/api/v1/comments/add-comment`,
         { content, userId, blogId: id }
       );
       if (data?.success) {
@@ -54,9 +51,9 @@ const CommentSection = () => {
       <h3 className="text-lg font-bold mb-2">Comments</h3>
       {comments.map((comment) => (
         <div key={comment._id} className="border p-2 mb-2 rounded-md">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col justify-between items-start my-4">
             <span className="font-semibold">{comment.user.username}</span>
-            <span className="text-xs text-green-400">
+            <span className="text-xs text-green-300">
               {new Date(comment.createdAt).toLocaleString()}
             </span>
           </div>
@@ -66,17 +63,20 @@ const CommentSection = () => {
       ))}
       {isLogin && (
         <div className="mt-4">
-          <div className="flex ">
+          <div
+            className="flex flex-col justify-center items-start gap-y-1
+           "
+          >
             <Input
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Add a comment"
               className="mb-2"
             />
+            <Button onClick={handleAddComment} className=" mb-2">
+              Post Comment
+            </Button>
           </div>
-          <Button onClick={handleAddComment} className=" mb-2">
-            Post Comment
-          </Button>
         </div>
       )}
     </div>

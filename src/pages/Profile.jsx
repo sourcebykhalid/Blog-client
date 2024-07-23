@@ -23,13 +23,12 @@ function Profile() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       const userId = localStorage.getItem("userId"); // Retrieve userId from localStorage
+      const apiUrl = import.meta.env.VITE_API_BASE_URL;
       try {
         setLoading(true); // Start loading
 
         const { data } = await axios.get(
-          `${
-            import.meta.env.VITE_API_BASE_URL
-          }/api/v1/user/current-user/${userId}`
+          `${apiUrl}/api/v1/user/current-user/${userId}`
         );
 
         if (data?.success) {

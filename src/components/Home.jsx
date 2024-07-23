@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardBody,
 } from "@material-tailwind/react";
-import { FaUser } from "react-icons/fa";
+import { FaBloggerB, FaUser } from "react-icons/fa";
 import { MdDateRange } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
@@ -19,13 +19,11 @@ const Home = ({ username }) => {
   const isLogin = useSelector((state) => state.isLogin);
   const [blogs, setBlogs] = useState([]);
   const navigate = useNavigate();
-
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/all-blogs`
-        );
+        const { data } = await axios.get(`${apiUrl}/api/v1/blog/all-blogs`);
         if (data?.success) {
           const sortedBlogs = data.blogs.sort(
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -67,10 +65,10 @@ const Home = ({ username }) => {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
-              className="bg-gradient-to-r from-black via-lime-500  to-gray-200 bg-clip-text text-transparent mx-auto mt-24 text-3xl md:text-7xl font-bold "
+              className="bg-gradient-to-r from-black via-lime-500  to-gray-200 bg-clip-text text-transparent mx-auto mt-24 text-3xl md:text-7xl font-extrabold "
             >
               Welcome to{" "}
-              <span className=" bg-gradient-to-r from-slate-700 via-blue-700 to-orange-500 bg-clip-text text-transparent font-extrabold ">
+              <span className=" bg-gradient-to-r from-slate-700 via-blue-700 to-orange-500 bg-clip-text text-transparent font-extrabold md:text-8xl ">
                 blogBeacon
               </span>
             </motion.h1>
@@ -81,7 +79,7 @@ const Home = ({ username }) => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
-                className=" text-gray-900 text-sm mt-5"
+                className=" text-gray-800 text-sm mt-5 border-b border-green-400 rounded-md px-2"
               >
                 Welcome to our BlogBeacon, a platform designed with you in mind.
                 Whether you&apos;re a seasoned writer or just starting, our app
@@ -93,7 +91,7 @@ const Home = ({ username }) => {
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
-                className=" text-gray-900 text-sm mx-6"
+                className=" text-gray-800 text-sm mx-6 "
               >
                 Plus, our built-in SEO tools and analytics help you grow your
                 audience and understand your readers better. Join us today and
@@ -104,7 +102,7 @@ const Home = ({ username }) => {
         </div>
       </div>
       {!isLogin && (
-        <div className="flex justify-center items-center text-xl gap-x-3 bg-gray-400 font-semibold px-4 py-2 md:w-1/2 mx-auto shadow-md shadow-green-200 mb-5 md:mb-12">
+        <div className="flex justify-center items-center text-xl gap-x-3 border-b border-green-400 rounded-md p-2 md:w-1/2 mx-auto mb-5 md:mb-12">
           Please <Button onClick={() => navigate("/login")}>Login</Button> to
           add posts
         </div>
@@ -116,7 +114,10 @@ const Home = ({ username }) => {
         <Reveal>
           {" "}
           <div className="py-16 md:py-36">
-            <Typography variant="h2" className="text-center mb-8">
+            <Typography
+              variant="h2"
+              className="text-center mb-8 text-gray-700 font-body rounded-md border-b-2  border-orange-800  p-1 w-fit mx-auto "
+            >
               Recent Blog Posts
             </Typography>
             <div className="flex justify-center items-center flex-wrap gap-6">
@@ -170,7 +171,10 @@ const Home = ({ username }) => {
         <Reveal>
           <div className="py-24  text-gray-400">
             <div className="max-w-4xl mx-auto text-center px-4">
-              <Typography variant="h2" className="mb-4 text-black font-bold">
+              <Typography
+                variant="h2"
+                className="mb-4 text-blue-gray-100  font-bold border-b-2 border-orange-900 rounded-md px-2 w-fit mx-auto"
+              >
                 About BlogBeacon
               </Typography>
               <Typography className="mb-8 text-black">
@@ -183,8 +187,10 @@ const Home = ({ username }) => {
           </div>
         </Reveal>
       </div>
-      <p className=" w-full text-center text-sm text-gray-100/70 md:text-base bg-orange-900/90 backdrop-blur-md p-2">
-        © Khalid | blogBeacon, 2024. All rights reserved.
+      <p className=" w-full text-center text-sm text-gray-100/70 md:text-base bg-orange-900/90 backdrop-blur-md p-2 flex justify-center items-center">
+        © Khalid | blog
+        <FaBloggerB />
+        eacon, 2024. All rights reserved.
       </p>
     </div>
   );

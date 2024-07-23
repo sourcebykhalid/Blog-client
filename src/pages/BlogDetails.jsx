@@ -24,10 +24,9 @@ const BlogDetails = () => {
 
   //get blog details
   const getBlogDetail = async () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/get-blog/${id}`
-      );
+      const { data } = await axios.get(`${apiUrl}/api/v1/blog/get-blog/${id}`);
       if (data?.success) {
         setBlog(data.blog);
         setInputs({
@@ -62,9 +61,10 @@ const BlogDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
       const { data } = await axios.put(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/update-blog/${id}`,
+        `${apiUrl}/api/v1/blog/update-blog/${id}`,
         {
           title: inputs.title,
           description: inputs.description,

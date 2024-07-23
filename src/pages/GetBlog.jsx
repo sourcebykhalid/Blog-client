@@ -22,9 +22,10 @@ const GetBlog = () => {
   };
 
   const handleDelete = async () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/delete-blog/${id}`
+        `${apiUrl}/api/v1/blog/delete-blog/${id}`
       );
       if (data?.success) {
         toast.success("Blog deleted");
@@ -38,9 +39,10 @@ const GetBlog = () => {
 
   useEffect(() => {
     const fetchBlog = async () => {
+      const apiUrl = import.meta.env.VITE_API_BASE_URL;
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/get-blog/${id}`
+          `${apiUrl}/api/v1/blog/get-blog/${id}`
         );
         if (data?.success) {
           setBlog(data.blog);
@@ -80,7 +82,7 @@ const GetBlog = () => {
   return (
     <div className="flex flex-col md:flex-row justify-between items-start pt-24 gap-x-3">
       <Reveal>
-        <div className="flex flex-col  justify-center py-1 md:py-2 items-center w-full md:w-5/6 h-full ml-7">
+        <div className="flex flex-col  justify-center py-1 md:py-2 items-center w-full md:w-5/6 h-full ml-7 border-b border-green-400 rounded-md px-2">
           <Typography className="text-sm">
             {formatDate(blog.createdAt)}
           </Typography>
@@ -89,7 +91,7 @@ const GetBlog = () => {
             <img
               src={blog.image}
               alt={blog.title}
-              className=" md:w-5/6 h-[18rem] md:h-[32rem] p-3 bg-cover rounded-md mb-4"
+              className=" md:w-5/6 h-[18rem] md:h-[32rem] p-3 bg-cover border-b border-green-400 rounded-md px-2 mb-4"
             />
           )}
           <Typography variant="h2" className="text-sm text-blue-500">
@@ -108,7 +110,7 @@ const GetBlog = () => {
           <div className="flex justify-between items-center md:mx-10">
             <Typography
               variant="h2"
-              className="text-lg md:text-2xl text-gray-800 font-bold"
+              className="text-lg md:text-2xl text-gray-800 font-bold border-b border-green-400 rounded-md px-2"
             >
               {blog.title}
             </Typography>

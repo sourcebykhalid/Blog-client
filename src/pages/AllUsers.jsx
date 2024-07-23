@@ -7,10 +7,9 @@ function AllUsers() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const fetchUserProfile = async () => {
+      const apiUrl = import.meta.env.VITE_API_BASE_URL;
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/v1/user/all-users`
-        );
+        const { data } = await axios.get(`${apiUrl}/api/v1/user/all-users`);
 
         if (data?.success) {
           setUsers(data.users);

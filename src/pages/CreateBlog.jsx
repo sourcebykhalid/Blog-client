@@ -61,17 +61,14 @@ const CreateBlog = () => {
       }
 
       console.log("Submitting form with inputs:", inputs);
-
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/create-blog`,
-        {
-          title: inputs.title,
-          description: inputs.description,
-          category: inputs.category,
-          image: inputs.image,
-          user: id,
-        }
-      );
+      const apiUrl = import.meta.env.VITE_API_BASE_URL;
+      const { data } = await axios.post(`${apiUrl}/api/v1/blog/create-blog`, {
+        title: inputs.title,
+        description: inputs.description,
+        category: inputs.category,
+        image: inputs.image,
+        user: id,
+      });
 
       console.log("Response from server:", data);
 

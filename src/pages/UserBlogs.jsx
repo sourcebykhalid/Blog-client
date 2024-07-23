@@ -5,11 +5,10 @@ import { MdCancel } from "react-icons/md";
 function UserBlogs() {
   const [blogs, setBlogs] = useState([]);
   const getUserBlogs = async () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
       const id = localStorage.getItem("userId");
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/user-blog/${id}`
-      );
+      const { data } = await axios.get(`${apiUrl}/api/v1/blog/user-blog/${id}`);
       if (data?.success) {
         setBlogs(data?.userBlog.blogs);
       }

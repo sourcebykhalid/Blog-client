@@ -27,16 +27,14 @@ const SimpleRegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/user/register`,
-        {
-          username: inputs.name,
-          email: inputs.email,
-          image: inputs.image,
-          password: inputs.password,
-        }
-      );
+      const { data } = await axios.post(`${apiUrl}/api/v1/user/register`, {
+        username: inputs.name,
+        email: inputs.email,
+        image: inputs.image,
+        password: inputs.password,
+      });
 
       if (data.success) {
         toast.success("User Registered Successfully");

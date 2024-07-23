@@ -23,14 +23,12 @@ const SimpleLoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/user/login`,
-        {
-          email: inputs.email,
-          password: inputs.password,
-        }
-      );
+      const { data } = await axios.post(`${apiUrl}/api/v1/user/login`, {
+        email: inputs.email,
+        password: inputs.password,
+      });
 
       if (data.success) {
         localStorage.setItem("userId", data.user._id);

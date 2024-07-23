@@ -36,9 +36,10 @@ const CardDefault = ({
     return new Date(dateString).toLocaleString("en-US", options);
   };
   const handleDelete = async () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/delete-blog/${id}`
+        `${apiUrl}/api/v1/blog/delete-blog/${id}`
       );
       if (data?.success) {
         toast.success("Blog deleted");
@@ -52,7 +53,7 @@ const CardDefault = ({
     navigate(`/get-blog/${id}`);
   };
   return (
-    <Card className="mt-6 w-full md:w-96   transition-all hover:shadow-green-500">
+    <Card className="mt-6 w-full md:w-96 transition-all  hover:border-b-2 hover:border-deep-orange-400 ">
       <CardHeader color="" className="relative h-56">
         <div className="flex justify-between items-center px-3 bg-green-200">
           <div className="flex gap-x-2 justify-center items-center">

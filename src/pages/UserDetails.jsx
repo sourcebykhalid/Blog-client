@@ -19,12 +19,11 @@ const UserDetails = () => {
 
   //get blog details
   const getUserDetail = async () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const userId = localStorage.getItem("userId");
     try {
       const { data } = await axios.get(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/v1/user/current-user/${userId}`
+        `${apiUrl}/api/v1/user/current-user/${userId}`
       );
       if (data?.success) {
         setUser(data.userProfile);
