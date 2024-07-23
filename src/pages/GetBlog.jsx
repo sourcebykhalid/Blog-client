@@ -3,10 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Typography } from "@material-tailwind/react";
 import toast from "react-hot-toast";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaUser } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import CommentSection from "../components/commentSection"; // Import the CommentSection component
+import Reveal from "../components/Reveal";
 
 const GetBlog = () => {
   const isLogin = useSelector((state) => state.isLogin);
@@ -78,59 +79,62 @@ const GetBlog = () => {
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-start pt-24 gap-x-3">
-      <div className="flex flex-col  justify-center py-1 md:py-2 items-center w-full bg-gradient-to-br from-teal-200 via-gray-300 to-lime-300 h-full">
-        <Typography variant="h6">
-          <div className="flex gap-x-2 justify-center items-center font-bold text-lg md:text-xl">
-            <img
-              src={blog.user.image || ""}
-              alt={blog.user?.username || "User"}
-              className="w-8 h-8 rounded-full"
-            />
-            {blog.user?.username}
-          </div>
-        </Typography>
-        <Typography className="text-sm">
-          {formatDate(blog.createdAt)}
-        </Typography>
-
-        {blog.image && (
-          <img
-            src={blog.image}
-            alt={blog.title}
-            className=" md:w-1/2 h-[32rem] p-3 bg-cover rounded-md mb-4"
-          />
-        )}
-        <Typography variant="h2" className="text-sm text-blue-500">
-          #{blog.category}
-        </Typography>
-      </div>
-      <div className="flex flex-col md:w-2/3 px-3 md:px-0">
-        <div className="flex justify-between items-center md:mx-10">
-          <Typography variant="h2" className="text-lg md:text-2xl font-bold">
-            {blog.title}
+      <Reveal>
+        <div className="flex flex-col  justify-center py-1 md:py-2 items-center w-full md:w-5/6 h-full ml-7">
+          <Typography className="text-sm">
+            {formatDate(blog.createdAt)}
           </Typography>
-          <div>
-            {userId === blog.user?._id && isLogin ? (
-              <div className="flex justify-center items-center space-x-1">
-                <Button
-                  onClick={handleEdit}
-                  className="hover:text-blue-500 transition-all"
-                >
-                  <FaEdit />
-                </Button>
-                <Button
-                  onClick={handleDelete}
-                  className="hover:text-red-500 transition-all"
-                >
-                  <MdDelete />
-                </Button>
-              </div>
-            ) : null}
-          </div>
+
+          {blog.image && (
+            <img
+              src={blog.image}
+              alt={blog.title}
+              className=" md:w-5/6 h-[18rem] md:h-[32rem] p-3 bg-cover rounded-md mb-4"
+            />
+          )}
+          <Typography variant="h2" className="text-sm text-blue-500">
+            #{blog.category}
+          </Typography>
+          <Typography variant="h6">
+            <div className="flex gap-x-2 justify-center items-center font-bold text-gray-800 text-lg md:text-xl">
+              <FaUser />
+              {blog.user?.username}
+            </div>
+          </Typography>
         </div>
-        <Typography>{blog.description}</Typography>
-        <CommentSection /> {/* Add the CommentSection component here */}
-      </div>
+      </Reveal>
+      <Reveal>
+        <div className="flex flex-col md:w-full px-3 md:px-0">
+          <div className="flex justify-between items-center md:mx-10">
+            <Typography
+              variant="h2"
+              className="text-lg md:text-2xl text-gray-800 font-bold"
+            >
+              {blog.title}
+            </Typography>
+            <div>
+              {userId === blog.user?._id && isLogin ? (
+                <div className="flex justify-center items-center space-x-1">
+                  <Button
+                    onClick={handleEdit}
+                    className="hover:text-blue-500 transition-all"
+                  >
+                    <FaEdit />
+                  </Button>
+                  <Button
+                    onClick={handleDelete}
+                    className="hover:text-red-500 transition-all"
+                  >
+                    <MdDelete />
+                  </Button>
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <Typography>{blog.description}</Typography>
+          <CommentSection /> {/* Add the CommentSection component here */}
+        </div>
+      </Reveal>
     </div>
   );
 };

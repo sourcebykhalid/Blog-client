@@ -36,7 +36,7 @@ const CommentSection = () => {
 
     try {
       const { data } = await axios.post(
-        "${import.meta.env.VITE_API_BASE_URL}/api/v1/comments/add-comment",
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/comments/add-comment`,
         { content, userId, blogId: id }
       );
       if (data?.success) {
