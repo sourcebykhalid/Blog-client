@@ -135,12 +135,12 @@ function Header() {
       ) : (
         <div className="flex flex-col md:flex-row justify-center items-center gap-y-3 gap-x-2">
           <NavLink to="/login" key="login">
-            <li className="px-3 py-1 border border-yellow-500 transition-all hover:scale-105">
+            <li className="px-3 py-1 border border-orange-600 transition-all hover:scale-105">
               Login
             </li>
           </NavLink>
           <NavLink to="/register" key="register">
-            <li className="bg-yellow-500 px-3 py-1 text-black rounded-sm border border-yellow-500 transition-all hover:scale-105">
+            <li className="bg-orange-600 px-3 py-1 text-black rounded-sm border border-orange-600 transition-all hover:scale-105">
               Get Started Free
             </li>
           </NavLink>

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../redux/store";
+import { FaBloggerB } from "react-icons/fa";
 
 const SimpleLoginForm = () => {
   const navigate = useNavigate();
@@ -47,13 +48,13 @@ const SimpleLoginForm = () => {
   return (
     <div className="flex justify-center w-full h-screen md:pt-20">
       <Card color="transparent" shadow={false}>
-        <Typography
-          className="flex justify-center bg-yellow-300 border-2 border-gray-400 rounded-md font-bold"
-          variant="h3"
-          color="blue-gray"
-        >
-          BlogBeacon
-        </Typography>
+        <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 cursor-pointer text-black font-extrabold ">
+          <h2 className="font-extrabold bg-gradient-to-r from-black via-blue-700 to-orange-500 bg-clip-text text-transparent  cursor-pointer">
+            blog
+          </h2>
+          <FaBloggerB />
+          eacon
+        </div>
         <Typography
           className="flex justify-center items-center mt-3"
           variant="h4"

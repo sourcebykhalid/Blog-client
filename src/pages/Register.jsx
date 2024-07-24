@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { FaBloggerB } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const SimpleRegistrationForm = () => {
@@ -46,15 +47,15 @@ const SimpleRegistrationForm = () => {
     }
   };
   return (
-    <div className="flex justify-center ">
+    <div className="flex justify-center pt-16 ">
       <Card color="transparent" shadow={false}>
-        <Typography
-          className=" flex justify-center bg-yellow-300 border-2 border-gray-400 rounded-md font-bold"
-          variant="h3"
-          color="blue-gray"
-        >
-          BlogBeacon
-        </Typography>
+        <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 cursor-pointer text-black font-extrabold ">
+          <h2 className="font-extrabold bg-gradient-to-r from-black via-blue-700 to-orange-500 bg-clip-text text-transparent  cursor-pointer">
+            blog
+          </h2>
+          <FaBloggerB />
+          eacon
+        </div>
         <Typography
           className="flex justify-center items-center mt-1"
           variant="h4"
@@ -69,7 +70,7 @@ const SimpleRegistrationForm = () => {
           onSubmit={handleSubmit}
           className="mt-2 mb-2 w-80 max-w-screen-lg sm:w-96"
         >
-          <div className="mb-1 flex flex-col gap-6">
+          <div className="mb-1 flex flex-col gap-2">
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Your Name
             </Typography>
