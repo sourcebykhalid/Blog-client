@@ -81,11 +81,15 @@ const Home = ({ username }) => {
                 transition={{ duration: 1 }}
                 className=" text-gray-800 text-sm mt-5 border-b border-green-400 rounded-md px-2"
               >
-                Welcome to our BlogBeacon, a platform designed with you in mind.
-                Whether you&apos;re a seasoned writer or just starting, our app
-                offers a seamless and engaging experience. With powerful content
-                management tools, and robust community features, it&apos;s never
-                been easier to share your stories and connect with readers.
+                Welcome to{" "}
+                <span className=" font-bold bg-gradient-to-r from-orange-400 via-amber-100 to-orange-200 px-1 rounded-sm">
+                  BlogBeacon
+                </span>{" "}
+                a platform designed with you in mind. Whether you&apos;re a
+                seasoned writer or just starting, our app offers a seamless and
+                engaging experience. With powerful content management tools, and
+                robust community features, it&apos;s never been easier to share
+                your stories and connect with readers.
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: -50 }}

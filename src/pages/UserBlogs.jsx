@@ -21,28 +21,30 @@ function UserBlogs() {
     getUserBlogs();
   }, []);
   return (
-    <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-24 bg-gradient-to-b from-orange-600 via-gray-100 to-orange-600 min-h-screen       ">
-      {blogs && blogs.length > 0 ? (
-        blogs.map((blog) => (
-          <BlogCard
-            key={blog.id}
-            id={blog._id}
-            isUser={true}
-            title={blog.title}
-            description={blog.description}
-            category={blog.category}
-            image={blog.image}
-            username={blog.user.username}
-            time={blog.createdAt}
-          />
-        ))
-      ) : (
-        <div className=" bg-gray-400 flex justify-center items-center mx-auto w-full h-screen font-bold text-lg p-4 sm:ml-[100%]">
-          <span className=" flex justify-center items-center gap-x-3">
-            No posts created <MdCancel />
-          </span>
-        </div>
-      )}
+    <div className="pt-24 min-h-screen bg-gradient-to-r from-orange-400 via-amber-100 to-lime-200  ">
+      <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-2 md:px-9 ">
+        {blogs && blogs.length > 0 ? (
+          blogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              id={blog._id}
+              isUser={true}
+              title={blog.title}
+              description={blog.description}
+              category={blog.category}
+              image={blog.image}
+              username={blog.user.username}
+              time={blog.createdAt}
+            />
+          ))
+        ) : (
+          <div className=" bg-gray-400 flex justify-center items-center mx-auto w-full h-screen font-bold text-lg p-4 sm:ml-[100%]">
+            <span className=" flex justify-center items-center gap-x-3">
+              No posts created <MdCancel />
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

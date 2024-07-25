@@ -13,10 +13,9 @@ function Blogs() {
   const postsPerPage = 6;
 
   const getAllBlogs = async () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/all-blogs`
-      );
+      const { data } = await axios.get(`${apiUrl}/api/v1/blog/all-blogs`);
       if (data?.success) {
         const sortedBlogs = data.blogs.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -56,7 +55,7 @@ function Blogs() {
   return (
     <>
       {isLogin && (
-        <div className="flex flex-col items-center bg-gradient-to-b from-orange-600 via-gray-100 to-orange-600">
+        <div className="flex flex-col items-center bg-gradient-to-r from-orange-300 via-amber-200 to-lime-200">
           <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:px-10 mt-24">
             {currentBlogs.map((blog) => (
               <BlogCard
