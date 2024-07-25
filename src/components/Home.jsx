@@ -110,31 +110,35 @@ const Home = ({ username }) => {
 
       {/* Recent Blog Posts */}
 
-      <div className=" bg-gradient-to-b from-blue-gray-100 to-orange-900">
-        <Reveal>
-          {" "}
-          <div className="py-16 md:py-36">
+      <div className=" bg-gradient-to-b from-blue-gray-100 to-black">
+        {" "}
+        <div className="py-16 md:py-36">
+          <Reveal>
             <Typography
               variant="h2"
               className="text-center mb-8 text-gray-700 font-body rounded-md border-b-2  border-orange-800  p-1 w-fit mx-auto "
             >
               Recent Blog Posts
-            </Typography>
-            <div className="flex justify-center items-center flex-wrap gap-6">
-              {blogs.map((blog) => (
-                <Card
-                  key={blog._id}
-                  onClick={() => handleReadMore(blog._id)}
-                  fullWidth
-                  className="w-full sm:w-96 hover:bg-gradient-to-tr from-gray-400 via-lime-200 to-orange-200 transition-all cursor-pointer"
-                >
+            </Typography>{" "}
+          </Reveal>
+          <div className="flex justify-center items-center flex-wrap gap-6">
+            {blogs.map((blog) => (
+              <Card
+                key={blog._id}
+                onClick={() => handleReadMore(blog._id)}
+                fullWidth
+                className="w-full sm:w-96 hover:bg-gradient-to-tr from-gray-400 via-lime-200 to-orange-200 transition-all cursor-pointer"
+              >
+                <Reveal>
                   <CardHeader color="blue" className="relative h-56">
                     <img
                       src={blog.image}
                       alt={blog.title}
                       className="transition-all hover:scale-x-110 overflow-hidden h-full w-full"
                     />
-                  </CardHeader>
+                  </CardHeader>{" "}
+                </Reveal>
+                <Reveal>
                   <CardBody>
                     <div className="flex justify-between items-center">
                       <Typography variant="h5" className="mb-2">
@@ -161,33 +165,34 @@ const Home = ({ username }) => {
                       </div>
                     </div>
                   </CardBody>
-                </Card>
-              ))}
-            </div>
+                </Reveal>
+              </Card>
+            ))}
           </div>
-        </Reveal>
-
+        </div>
         {/* About Section */}
-        <Reveal>
-          <div className="py-24  text-gray-400">
-            <div className="max-w-4xl mx-auto text-center px-4">
+        <div className="py-24  text-gray-400">
+          <div className="max-w-4xl mx-auto text-center px-4">
+            <Reveal>
               <Typography
                 variant="h2"
                 className="mb-4 text-blue-gray-100  font-bold border-b-2 border-orange-900 rounded-md px-2 w-fit mx-auto"
               >
                 About BlogBeacon
-              </Typography>
-              <Typography className="mb-8 text-black">
+              </Typography>{" "}
+            </Reveal>
+            <Reveal>
+              <Typography className="mb-8 text-blue-gray-300">
                 BlogBeacon is your go-to source for the latest and greatest blog
                 posts on a variety of topics. Whether you&apos;re interested in
                 tech, lifestyle, travel, or more, we&apos;ve got you covered
                 with insightful articles from passionate writers.
-              </Typography>
-            </div>
+              </Typography>{" "}
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
       </div>
-      <p className=" w-full text-center text-sm text-gray-100/70 md:text-base bg-orange-900/90 backdrop-blur-md p-2 flex justify-center items-center">
+      <p className=" w-full text-center text-sm text-gray-100/70 md:text-base bg-mycolor backdrop-blur-md p-2 flex justify-center items-center">
         © Khalid | blog
         <FaBloggerB />
         eacon, 2024. All rights reserved.

@@ -48,7 +48,9 @@ const CommentSection = () => {
 
   return (
     <div className="mt-4 w-full md:w-2/3">
-      <h3 className="text-lg font-bold mb-2">Comments</h3>
+      <h3 className="text-lg font-bold mb-2 border-b border-green-400 rounded-md px-2 w-fit">
+        Comments
+      </h3>
       {comments.map((comment) => (
         <div key={comment._id} className="border p-2 mb-2 rounded-md">
           <div className="flex flex-col justify-between items-start my-4">

@@ -26,7 +26,7 @@ function AllUsers() {
   }, []);
   return (
     <div>
-      <ul className=" grid grid-cols-2 md:grid-cols-4 gap-3 bg-gradient-to-b from-orange-600 via-gray-100 to-orange-600 min-h-screen">
+      <ul className=" grid grid-cols-2 md:grid-cols-4 gap-3 bg-gradient-to-b from-orange-200 via-gray-100 to-orange-300 min-h-screen">
         {users.map((user) => (
           <li
             key={user._id}

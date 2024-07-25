@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../redux/store";
 import toast from "react-hot-toast";
 import { IconButton, MobileNav } from "@material-tailwind/react";
-import { FaBloggerB, FaHome, FaPen } from "react-icons/fa";
+import { FaBloggerB, FaHome, FaPen, FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
 
 function Header() {
@@ -115,8 +115,8 @@ function Header() {
             </NavLink>
           </div>
           <NavLink to="/login" key="logout" onClick={handleLogout}>
-            <li className="transition-all hover:scale-110 font-bold mt-12 md:mt-0 border-b-2 border-orange-500 rounded-md px-1">
-              Logout
+            <li className="flex justify-center items-center gap-x-1  transition-all hover:scale-110 font-semibold mt-12 md:mt-0 border-b-2 border-red-400 rounded-md px-1 text-red-400">
+              Logout <FaSignOutAlt />
             </li>
           </NavLink>
           <NavLink
@@ -135,7 +135,7 @@ function Header() {
       ) : (
         <div className="flex flex-col md:flex-row justify-center items-center gap-y-3 gap-x-2">
           <NavLink to="/login" key="login">
-            <li className="px-3 py-1 border border-orange-600 transition-all hover:scale-105">
+            <li className="px-3 py-1 border border-orange-600 rounded-sm transition-all hover:scale-105">
               Login
             </li>
           </NavLink>
@@ -151,7 +151,7 @@ function Header() {
 
   return (
     <div className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-black text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4">
-      <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 cursor-pointer ">
+      <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 px-1 cursor-pointer ">
         <h2 className="font-extrabold bg-gradient-to-r from-black via-blue-700 to-orange-500 bg-clip-text text-transparent  cursor-pointer">
           <NavLink to="/">blog</NavLink>
         </h2>

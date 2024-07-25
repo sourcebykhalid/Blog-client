@@ -18,7 +18,7 @@ const DrawerDefault = () => {
       <Drawer
         open={open}
         onClose={closeDrawer}
-        className="p-4 bg-gradient-to-b from-orange-600 via-gray-100 to-orange-600 min-h-screen"
+        className="p-4 bg-gradient-to-b from-orange-200 via-gray-100 to-orange-600 min-h-screen"
       >
         <div className="mb-6 flex items-center justify-between mt-16 ">
           <Typography variant="h5" color="blue-gray">
