@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import BlogCard from "../components/BlogCard";
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import toast, { LoaderIcon } from "react-hot-toast";
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const isLogin = useSelector((state) => state.isLogin);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
@@ -35,19 +36,28 @@ function Blogs() {
 
   useEffect(() => {
     getAllBlogs();
+    // Example query, adjust as needed
   }, []);
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1); // Reset to first page on category change
+  };
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentBlogs = blogs.slice(indexOfFirstPost, indexOfLastPost);
+  const filteredBlogs =
+    selectedCategory === "All"
+      ? blogs
+      : blogs.filter((blog) => blog.category === selectedCategory);
+  const currentBlogs = filteredBlogs.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
     return (
       <p>
-        {" "}
-        <LoaderIcon className=" mx-auto mt-3  w-8 h-8 rounded-full" />{" "}
+        <LoaderIcon className=" mx-auto mt-3  w-8 h-8 rounded-full" />
       </p>
     );
   }
@@ -56,7 +66,11 @@ function Blogs() {
     <>
       {isLogin && (
         <div className="flex flex-col items-center bg-gradient-to-r from-orange-300 via-amber-200 to-lime-200">
-          <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:px-10 mt-24">
+          <CategoryTabs
+            selectedCategory={selectedCategory}
+            handleCategoryChange={handleCategoryChange}
+          />
+          <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:px-10 mt-4">
             {currentBlogs.map((blog) => (
               <BlogCard
                 key={blog._id}
@@ -73,7 +87,7 @@ function Blogs() {
           </div>
           <Pagination
             postsPerPage={postsPerPage}
-            totalPosts={blogs.length}
+            totalPosts={filteredBlogs.length}
             paginate={paginate}
             currentPage={currentPage}
           />
@@ -82,6 +96,37 @@ function Blogs() {
     </>
   );
 }
+
+const CategoryTabs = ({ selectedCategory, handleCategoryChange }) => {
+  const categories = [
+    "All",
+    "tech",
+    "lifestyle",
+    "sports",
+    "weather",
+    "education",
+  ]; // Add your categories here
+
+  return (
+    <div className="pt-24 w-full flex justify-center">
+      <div className="flex space-x-4 border-b border-gray-300">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => handleCategoryChange(category)}
+            className={`py-2 px-4 font-semibold ${
+              selectedCategory === category
+                ? "border-b-2 border-blue-500 text-blue-500"
+                : "text-gray-600 hover:text-blue-500"
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
   const pageNumbers = [];

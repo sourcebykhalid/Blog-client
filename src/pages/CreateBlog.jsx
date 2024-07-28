@@ -131,10 +131,10 @@ const CreateBlog = () => {
               onChange={handleCategoryChange}
             >
               <Option value="tech">Technology</Option>
-              <Option value="health">Health</Option>
               <Option value="lifestyle">Lifestyle</Option>
               <Option value="finance">Finance</Option>
               <Option value="education">Education</Option>
+              <Option value="weather">Weather</Option>
             </Select>
 
             <Typography variant="h6" color="blue-gray" className="-mb-3">

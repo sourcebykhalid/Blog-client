@@ -78,10 +78,10 @@ function Header() {
   };
 
   const navList = (
-    <ul className="flex flex-col  md:flex-row justify-center items-center gap-x-4">
+    <ul className=" flex flex-col   md:flex-row justify-center items-center gap-x-4">
       {isLogin ? (
         <>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-x-4 md:mr-24">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-x-4 md:mr-24 ">
             <NavLink to="/" key="home">
               <li className="transition-all hover:scale-105 cursor-pointer flex justify-center items-center gap-x-1 border-b border-orange-400 rounded-md px-1">
                 Home <FaHome />
@@ -103,6 +103,7 @@ function Header() {
                 </span>
               </li>
             </NavLink>
+
             <NavLink to="/create-blog" key="create-blog">
               <li className="hover:scale-105 cursor-pointer flex justify-center items-center gap-x-1 border-b border-orange-400 rounded-md px-1">
                 Write <FaPen />
@@ -123,7 +124,7 @@ function Header() {
             to={`/current-user/${localStorage.getItem("userId")}`}
             key="user-profile"
           >
-            <li className="hover:text-gray-300 cursor-pointer text-black p-2 rounded-full transition-all hover:scale-105">
+            <li className="hover:text-gray-300 cursor-pointer text-black p-2 rounded-full transition-all hover:scale-105 ">
               <img
                 src={user.image || "https://via.placeholder.com/150"}
                 alt={user.username || "User"}
@@ -152,11 +153,16 @@ function Header() {
   return (
     <div className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-black text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4">
       <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 px-1 cursor-pointer ">
-        <h2 className="font-extrabold bg-gradient-to-r from-black via-blue-700 to-orange-500 bg-clip-text text-transparent  cursor-pointer">
-          <NavLink to="/">blog</NavLink>
+        <h2 className="font-extrabold bg-gradient-to-r from-black via-gray-700 to-green-500 bg-clip-text text-transparent  cursor-pointer">
+          <NavLink
+            className="flex w-fit flex-row justify-center items-center"
+            to="/"
+          >
+            blog
+            <FaBloggerB className=" text-black" />
+            eacon
+          </NavLink>
         </h2>
-        <FaBloggerB />
-        eacon
       </div>
       <nav className="hidden md:block">{navList}</nav>
       <IconButton

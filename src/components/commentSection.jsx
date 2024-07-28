@@ -56,7 +56,7 @@ const CommentSection = () => {
           <div className="flex flex-col justify-between items-start my-4">
             <span className="font-semibold">{comment.user.username}</span>
             <span className="text-xs text-green-300">
-              {new Date(comment.createdAt).toLocaleString()}
+              {new Date(comment.createdAt).toLocaleDateString()}
             </span>
           </div>
 

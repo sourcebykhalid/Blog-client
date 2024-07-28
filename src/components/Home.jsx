@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -68,7 +68,7 @@ const Home = ({ username }) => {
               className="bg-gradient-to-r from-black via-lime-500  to-gray-200 bg-clip-text text-transparent mx-auto mt-24 text-3xl md:text-7xl font-extrabold "
             >
               Welcome to{" "}
-              <span className=" bg-gradient-to-r from-slate-700 via-blue-700 to-orange-500 bg-clip-text text-transparent font-extrabold md:text-8xl ">
+              <span className=" bg-gradient-to-r from-black via-gray-700 to-green-500 bg-clip-text text-transparent font-extrabold md:text-8xl ">
                 blogBeacon
               </span>
             </motion.h1>
@@ -79,7 +79,7 @@ const Home = ({ username }) => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
-                className=" text-gray-800 text-sm mt-5 border-b border-green-400 rounded-md px-2"
+                className="text-gray-800 text-sm mt-5 border-b border-green-400 rounded-md px-2"
               >
                 Welcome to{" "}
                 <span className=" font-bold bg-gradient-to-r from-orange-400 via-amber-100 to-orange-200 px-1 rounded-sm">
@@ -131,21 +131,24 @@ const Home = ({ username }) => {
                 key={blog._id}
                 onClick={() => handleReadMore(blog._id)}
                 fullWidth
-                className="w-full sm:w-96 hover:bg-gradient-to-tr from-gray-400 via-lime-200 to-orange-200 transition-all cursor-pointer"
+                className="group w-full sm:w-96 hover:bg-gradient-to-tr from-gray-400 via-lime-200 to-orange-200 transition-all cursor-pointer "
               >
                 <Reveal>
                   <CardHeader color="blue" className="relative h-56">
                     <img
                       src={blog.image}
                       alt={blog.title}
-                      className="transition-all hover:scale-x-110 overflow-hidden h-full w-full"
+                      className="transition-all hover:scale-x-110 overflow-hidden h-full w-full md:group-hover:scale-105"
                     />
                   </CardHeader>{" "}
                 </Reveal>
                 <Reveal>
                   <CardBody>
                     <div className="flex justify-between items-center">
-                      <Typography variant="h5" className="mb-2">
+                      <Typography
+                        variant="h5"
+                        className="mb-2 md:group-hover:font-extrabold"
+                      >
                         {blog.title}
                       </Typography>
                       <Typography
@@ -158,7 +161,7 @@ const Home = ({ username }) => {
                     <Typography className="mb-4">
                       {blog.description.slice(0, 90)}...
                     </Typography>
-                    <div className="flex justify-between items-center text-sm">
+                    <div className="flex justify-between items-center text-sm ">
                       <div className="flex items-center gap-2">
                         <FaUser />
                         <span>{blog.user.username}</span>
