@@ -70,7 +70,7 @@ function Blogs() {
             selectedCategory={selectedCategory}
             handleCategoryChange={handleCategoryChange}
           />
-          <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:px-10 mt-4">
+          <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:px-10 mt-4 px-2">
             {currentBlogs.map((blog) => (
               <BlogCard
                 key={blog._id}
@@ -114,10 +114,10 @@ const CategoryTabs = ({ selectedCategory, handleCategoryChange }) => {
           <button
             key={category}
             onClick={() => handleCategoryChange(category)}
-            className={`py-2 px-4 font-semibold ${
+            className={`py-2 px-[.2] md:px-4 font-semibold text-sm md:text-base ${
               selectedCategory === category
                 ? "border-b-2 border-blue-500 text-blue-500"
-                : "text-gray-600 hover:text-blue-500"
+                : "text-gray-600 hover:text-blue-500 "
             }`}
           >
             {category}
