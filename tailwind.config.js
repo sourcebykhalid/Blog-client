@@ -6,6 +6,8 @@ export default withMT({
     extend: {
       fontFamily: {
         sans: ["Open Sans", "sans-serif"],
+        serif: ["Roboto Slab", "serif"],
+        body: ["Roboto", "sans-serif"],
       },
       backgroundImage: {
         parl: 'url("https://images.unsplash.com/photo-1597423243847-6a62e5dce477?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',

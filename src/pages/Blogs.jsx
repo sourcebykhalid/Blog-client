@@ -4,6 +4,7 @@ import axios from "axios";
 import BlogCard from "../components/BlogCard";
 import { useSelector } from "react-redux";
 import toast, { LoaderIcon } from "react-hot-toast";
+import Reveal from "../components/Reveal";
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -70,21 +71,23 @@ function Blogs() {
             selectedCategory={selectedCategory}
             handleCategoryChange={handleCategoryChange}
           />
-          <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:px-10 mt-4 px-2">
-            {currentBlogs.map((blog) => (
-              <BlogCard
-                key={blog._id}
-                id={blog._id}
-                isUser={localStorage.getItem("userId") === blog.user?._id}
-                title={blog.title}
-                description={blog.description}
-                category={blog.category}
-                image={blog.image}
-                username={blog.user.username}
-                time={blog.createdAt}
-              />
-            ))}
-          </div>
+          <Reveal>
+            <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:px-10 mt-4 px-2">
+              {currentBlogs.map((blog) => (
+                <BlogCard
+                  key={blog._id}
+                  id={blog._id}
+                  isUser={localStorage.getItem("userId") === blog.user?._id}
+                  title={blog.title}
+                  description={blog.description}
+                  category={blog.category}
+                  image={blog.image}
+                  username={blog.user.username}
+                  time={blog.createdAt}
+                />
+              ))}
+            </div>
+          </Reveal>
           <Pagination
             postsPerPage={postsPerPage}
             totalPosts={filteredBlogs.length}

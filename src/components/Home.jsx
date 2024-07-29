@@ -56,7 +56,7 @@ const Home = ({ username }) => {
   };
 
   return (
-    <div className=" bg-blend-hue bg-gray-100">
+    <div className=" bg-blend-hue bg-gray-100 font-body">
       {/* Hero Section */}
       <div className="relative  w-full text-gray-500 flex justify-center items-center py-40 ">
         <div className="relative z-10 text-center px-4 leading-[3rem]">

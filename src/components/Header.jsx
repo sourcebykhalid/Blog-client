@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { IconButton, MobileNav } from "@material-tailwind/react";
 import { FaBloggerB, FaHome, FaPen, FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
-
 function Header() {
   const isLogin = useSelector((state) => state.isLogin);
   const dispatch = useDispatch();
@@ -81,7 +80,7 @@ function Header() {
     <ul className=" flex flex-col   md:flex-row justify-center items-center gap-x-4">
       {isLogin ? (
         <>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-x-4 md:mr-24 ">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-x-4 md:mr-24 gap-y-6 md:gap-y-0 ">
             <NavLink to="/" key="home">
               <li className="transition-all hover:scale-105 cursor-pointer flex justify-center items-center gap-x-1 border-b border-orange-400 rounded-md px-1">
                 Home <FaHome />
@@ -151,9 +150,12 @@ function Header() {
   );
 
   return (
-    <div className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-black text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4">
-      <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 px-1 cursor-pointer ">
-        <h2 className="font-extrabold bg-gradient-to-r from-black via-gray-700 to-green-500 bg-clip-text text-transparent  cursor-pointer">
+    <div
+      className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-black text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4 font-body"
+      onClick={() => setOpenNav(!openNav)}
+    >
+      <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1  px-1 cursor-pointer border-b border-orange-400 ">
+        <h2 className="flex  gap-x-1 font-extrabold bg-gradient-to-r from-black via-gray-700 to-green-500 bg-clip-text text-transparent  cursor-pointer">
           <NavLink
             className="flex w-fit flex-row justify-center items-center"
             to="/"
@@ -203,7 +205,8 @@ function Header() {
         )}
       </IconButton>
       <MobileNav open={openNav}>
-        <div className="h-[21rem] flex justify-center items-center">
+        {" "}
+        <div className=" h-screen flex justify-center items-center py-4 absolute border-r border-gray-500 left-0 top-0 w-1/2 transition-all duration-150 bg-gray-300">
           {navList}
         </div>
       </MobileNav>
