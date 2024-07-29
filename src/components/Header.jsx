@@ -150,10 +150,7 @@ function Header() {
   );
 
   return (
-    <div
-      className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-black text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4 font-body"
-      onClick={() => setOpenNav(!openNav)}
-    >
+    <div className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-black  text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4 font-body">
       <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1  px-1 cursor-pointer border-b border-orange-400 ">
         <h2 className="flex  gap-x-1 font-extrabold bg-gradient-to-r from-black via-gray-700 to-green-500 bg-clip-text text-transparent  cursor-pointer">
           <NavLink
@@ -206,9 +203,7 @@ function Header() {
       </IconButton>
       <MobileNav open={openNav}>
         {" "}
-        <div className=" h-screen flex justify-center items-center py-4 absolute border-r border-gray-500 left-0 top-0 w-1/2 transition-all duration-150 bg-gray-300">
-          {navList}
-        </div>
+        <div className=" transition-all duration-150 pt-11">{navList}</div>
       </MobileNav>
     </div>
   );

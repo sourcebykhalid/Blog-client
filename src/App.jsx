@@ -13,7 +13,6 @@ import GetBlog from "./pages/GetBlog.jsx";
 import Profile from "./pages/Profile.jsx";
 import UserDetails from "./pages/UserDetails.jsx";
 import AllUsers from "./pages/AllUsers.jsx";
-import Khalid from "./components/Add.jsx";
 function App() {
   return (
     <>
@@ -22,7 +21,6 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/khalid" element={<Khalid />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
