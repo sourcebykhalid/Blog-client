@@ -3,6 +3,13 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import BlogCard from "../components/BlogCard";
 import { FaUser } from "react-icons/fa";
+import {
+  Avatar,
+  List,
+  ListItem,
+  ListItemPrefix,
+  Typography,
+} from "@material-tailwind/react";
 function AllUsers() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -25,19 +32,35 @@ function AllUsers() {
     fetchUserProfile();
   }, []);
   return (
-    <div>
-      <ul className=" grid grid-cols-2 md:grid-cols-4 gap-3 bg-gradient-to-b from-orange-200 via-gray-100 to-orange-300 min-h-screen">
+    <div className=" ">
+      <List className=" grid grid-cols-2 md:grid-cols-3 gap-3 bg-gradient-to-b from-black/20 via-gray-100 to-black/35 min-h-screen pt-24">
         {users.map((user) => (
-          <li
+          <ListItem
             key={user._id}
             id={user._id}
-            className="flex justify-center items-center gap-x-2 text-lg text-gray-900 font-bold decoration-black"
+            className="flex flex-col md:flex-row justify-center items-center gap-x-2 text-lg text-gray-900 font-bold decoration-black"
           >
-            <img src={user.image} alt="" className=" w-8 h-8 rounded-full" />
-            {user.username}
-          </li>
+            <ListItemPrefix>
+              <Avatar
+                variant="circular"
+                alt="candice"
+                src={
+                  user.image ||
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOApFCSVByzhZorHUAP-J851JAYyOPtI1jdg&s"
+                }
+              />
+            </ListItemPrefix>
+            <div>
+              <Typography variant="h6" color="blue-gray" className=" font-bold">
+                {user.username}
+              </Typography>
+              <Typography variant="small" color="gray" className="font-normal">
+                {user.email}
+              </Typography>
+            </div>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </div>
   );
 }

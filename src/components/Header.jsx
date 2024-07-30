@@ -151,7 +151,7 @@ function Header() {
 
   return (
     <div className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-black  text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4 font-body">
-      <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1  px-1 cursor-pointer border-b border-orange-400 ">
+      <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1  px-1 cursor-pointer border-b-2 border-orange-500 ">
         <h2 className="flex  gap-x-1 font-extrabold bg-gradient-to-r from-black via-gray-700 to-green-500 bg-clip-text text-transparent  cursor-pointer">
           <NavLink
             className="flex w-fit flex-row justify-center items-center"
