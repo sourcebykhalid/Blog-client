@@ -33,7 +33,7 @@ function AllUsers() {
   }, []);
   return (
     <div className=" ">
-      <List className=" grid grid-cols-2 md:grid-cols-3 gap-3 bg-gradient-to-b from-black/20 via-gray-100 to-black/35 min-h-screen pt-24">
+      <List className=" grid grid-cols-2 md:grid-cols-3 gap-3 bg-gradient-to-b from-black/20 via-gray-100 to-black/35 min-h-screen pt-24 mx-2 rounded-md ">
         {users.map((user) => (
           <ListItem
             key={user._id}

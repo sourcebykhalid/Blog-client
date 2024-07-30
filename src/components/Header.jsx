@@ -89,17 +89,11 @@ function Header() {
             <NavLink to="/all-blogs" key="all-blogs">
               <li className="transition-all hover:scale-105 cursor-pointer flex justify-center items-center gap-x-1 border-b border-orange-400 rounded-md px-1">
                 Latest Articles
-                <span className="bg-green-400 text-black w-5 h-5 rounded-full flex justify-center items-center hover:scale-105 transition-colors mb-2">
-                  {blogs.length}
-                </span>
               </li>
             </NavLink>
             <NavLink to="/user-blogs" key="user-blogs">
               <li className="transition-all hover:scale-105 cursor-pointer flex justify-center items-center gap-x-1 border-b border-orange-400 rounded-md px-1">
                 My Blogs
-                <span className="bg-green-400 text-black w-5 h-5 rounded-full flex justify-center items-center hover:scale-105 transition-colors mb-2">
-                  {user.blogs?.length}
-                </span>
               </li>
             </NavLink>
 
