@@ -38,7 +38,7 @@ function AllUsers() {
           <ListItem
             key={user._id}
             id={user._id}
-            className="flex flex-col md:flex-row justify-center items-center gap-x-2 text-lg text-gray-900 font-bold decoration-black"
+            className="flex flex-col md:flex-row justify-center items-start gap-x-2 text-lg text-gray-900 font-bold decoration-black"
           >
             <ListItemPrefix>
               <Avatar
