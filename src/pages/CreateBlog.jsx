@@ -12,6 +12,7 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import FileUpload from "../components/FileUpload";
 
 const CreateBlog = () => {
   const [open, setOpen] = useState(true);
@@ -151,6 +152,7 @@ const CreateBlog = () => {
                 className: "before:content-none after:content-none",
               }}
             />
+            <FileUpload />
           </div>
 
           <DialogFooter>

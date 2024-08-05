@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import BlogCard from "../components/BlogCard";
-import { FaUser } from "react-icons/fa";
+
 import {
   Avatar,
   List,
