@@ -16,26 +16,47 @@ const SimpleRegistrationForm = () => {
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
-    image: "",
     password: "",
+    image: null, // Change to handle file
   });
+
   const handleChange = (e) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === "image") {
+      setInputs((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.files[0], // Set file object
+      }));
+    } else {
+      setInputs((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+    // Create FormData object
+    const formData = new FormData();
+    formData.append("username", inputs.name);
+    formData.append("email", inputs.email);
+    formData.append("password", inputs.password);
+    if (inputs.image) {
+      formData.append("image", inputs.image); // Append the file
+    }
+
     try {
-      const { data } = await axios.post(`${apiUrl}/api/v1/user/register`, {
-        username: inputs.name,
-        email: inputs.email,
-        image: inputs.image,
-        password: inputs.password,
-      });
+      const { data } = await axios.post(
+        `${apiUrl}/api/v1/user/register`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Important for file uploads
+          },
+        }
+      );
 
       if (data.success) {
         toast.success("User Registered Successfully");
@@ -43,9 +64,10 @@ const SimpleRegistrationForm = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("User already exists");
+      toast.error("Error during registration");
     }
   };
+
   return (
     <div className="flex justify-center pt-16 ">
       <Card color="transparent" shadow={false}>
@@ -100,13 +122,12 @@ const SimpleRegistrationForm = () => {
               }}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Image Url
+              Image
             </Typography>
             <Input
               size="lg"
+              type="file" // Change to file input
               name="image"
-              placeholder="Image url"
-              value={inputs.image}
               onChange={handleChange}
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
@@ -137,7 +158,7 @@ const SimpleRegistrationForm = () => {
                 color="gray"
                 className="flex items-center font-normal"
               >
-                I agree the
+                I agree to the
                 <a
                   href="#"
                   className="font-medium transition-colors hover:text-gray-900"
@@ -149,7 +170,7 @@ const SimpleRegistrationForm = () => {
             containerProps={{ className: "-ml-2.5" }}
           />
           <Button type="submit" className="mt-6" fullWidth>
-            sign up
+            Sign Up
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}

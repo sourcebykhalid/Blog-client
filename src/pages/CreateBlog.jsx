@@ -12,10 +12,10 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import FileUpload from "../components/FileUpload";
 
 const CreateBlog = () => {
   const [open, setOpen] = useState(true);
+  const [imageFile, setImageFile] = useState(null); // New state for image file
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -27,7 +27,6 @@ const CreateBlog = () => {
     title: "",
     description: "",
     category: "",
-    image: "",
   });
 
   const handleChange = (e) => {
@@ -45,37 +44,36 @@ const CreateBlog = () => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const id = localStorage.getItem("userId");
+      const formData = new FormData();
+      formData.append("title", inputs.title);
+      formData.append("description", inputs.description);
+      formData.append("category", inputs.category);
+      formData.append("image", imageFile); // Append the image file
+      formData.append("user", id);
 
-      // Input validation
-      if (
-        !inputs.title ||
-        !inputs.description ||
-        !inputs.category ||
-        !inputs.image
-      ) {
-        toast.error("All fields are required");
-        return;
-      }
-
-      console.log("Submitting form with inputs:", inputs);
       const apiUrl = import.meta.env.VITE_API_BASE_URL;
-      const { data } = await axios.post(`${apiUrl}/api/v1/blog/create-blog`, {
-        title: inputs.title,
-        description: inputs.description,
-        category: inputs.category,
-        image: inputs.image,
-        user: id,
-      });
-
-      console.log("Response from server:", data);
+      const { data } = await axios.post(
+        `${apiUrl}/api/v1/blog/create-blog`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (data?.success) {
         toast.success("Blog created successfully");
-        setOpen(false); // Close dialog on success
+        setOpen(false);
         navigate("/user-blogs");
       } else {
         toast.error("Failed to create blog");
@@ -97,6 +95,7 @@ const CreateBlog = () => {
       >
         <form
           onSubmit={handleSubmit}
+          encType="multipart/form-data"
           className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
         >
           <div className="mb-1 flex flex-col gap-6">
@@ -109,10 +108,6 @@ const CreateBlog = () => {
               name="title"
               value={inputs.title}
               onChange={handleChange}
-              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Description
@@ -139,20 +134,9 @@ const CreateBlog = () => {
             </Select>
 
             <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Image url
+              Upload Image
             </Typography>
-            <Input
-              size="lg"
-              placeholder="Enter Image url"
-              name="image"
-              value={inputs.image}
-              onChange={handleChange}
-              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-            />
-            <FileUpload />
+            <Input type="file" name="image" onChange={handleFileChange} />
           </div>
 
           <DialogFooter>
@@ -162,10 +146,10 @@ const CreateBlog = () => {
               onClick={handleOpen}
               className="mr-1"
             >
-              <span>Cancel</span>
+              Cancel
             </Button>
             <Button type="submit" variant="gradient" color="green">
-              <span>Publish</span>
+              Publish
             </Button>
           </DialogFooter>
         </form>

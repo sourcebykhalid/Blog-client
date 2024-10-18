@@ -8,6 +8,7 @@ import { FaBloggerB, FaHome, FaPen, FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
 function Header() {
   const isLogin = useSelector((state) => state.isLogin);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation(); // Add this line
   const [blogs, setBlogs] = useState([]);
@@ -75,7 +76,7 @@ function Header() {
       console.error("Error during logout:", error);
     }
   };
-
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const navList = (
     <ul className=" flex flex-col   md:flex-row justify-center items-center gap-x-4">
       {isLogin ? (
@@ -119,9 +120,16 @@ function Header() {
           >
             <li className="hover:text-gray-300 cursor-pointer text-black p-2 rounded-full transition-all hover:scale-105 ">
               <img
-                src={user.image || "https://via.placeholder.com/150"}
+                src={
+                  `${apiUrl}/uploads/${user.image}` ||
+                  user.image ||
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOApFCSVByzhZorHUAP-J851JAYyOPtI1jdg&s"
+                }
                 alt={user.username || "User"}
                 className="w-8 h-8 rounded-full"
+                loading="lazy"
+                style={{ display: imageLoaded ? "block" : "none" }}
+                onLoad={() => setImageLoaded(true)}
               />
             </li>
           </NavLink>

@@ -1,50 +1,66 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const FileUpload = () => {
+const FileUpload = ({ onFileUpload }) => {
   const [file, setFile] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [message, setMessage] = useState("");
+  const [filename, setFilename] = useState("Choose File");
+  const [uploadedFile, setUploadedFile] = useState({});
 
-  const handleFileChange = (e) => {
+  const onChange = (e) => {
     setFile(e.target.files[0]);
+    setFilename(e.target.files[0].name);
   };
 
-  const handleUpload = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", file); // Ensure 'file' matches the field name on the server
 
     try {
       const apiUrl = import.meta.env.VITE_API_BASE_URL;
-      const response = await axios.post(
-        `${apiUrl}/http://localhost:8080/api/v1/upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setUploadProgress(percentCompleted);
-          },
-        }
-      );
-      setMessage("File uploaded successfully!");
-    } catch (error) {
-      setMessage("Error uploading file");
-      console.error("Error uploading file:", error);
+      const res = await axios.post(`${apiUrl}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const { file: uploadedPath, message } = res.data;
+      setUploadedFile({ file: uploadedPath, message });
+
+      // Pass the file URL/path to the parent component
+      onFileUpload(uploadedPath);
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
     <div>
-      <h2>File Upload</h2>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
-      {uploadProgress > 0 && <div>Upload Progress: {uploadProgress}%</div>}
-      {message && <div>{message}</div>}
+      <form onSubmit={onSubmit}>
+        <div className="custom-file mb-4">
+          <input
+            type="file"
+            className="custom-file-input"
+            id="customFile"
+            onChange={onChange}
+          />
+          <label className="custom-file-label" htmlFor="customFile">
+            {filename}
+          </label>
+        </div>
+      </form>
+      {uploadedFile.file ? (
+        <div className="row mt-5">
+          <div className="col-md-6 m-auto">
+            <h3 className="text-center">{uploadedFile.message}</h3>
+            <img
+              style={{ width: "100%" }}
+              src={`/${uploadedFile.file}`}
+              alt=""
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

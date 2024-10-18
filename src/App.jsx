@@ -13,6 +13,7 @@ import GetBlog from "./pages/GetBlog.jsx";
 import Profile from "./pages/Profile.jsx";
 import UserDetails from "./pages/UserDetails.jsx";
 import AllUsers from "./pages/AllUsers.jsx";
+import AgroApi from "./components/AgroApi.jsx";
 function App() {
   return (
     <>
@@ -24,7 +25,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/all-blogs" element={<Blogs />} />
+        <Route
+          path="/all-blogs"
+          element={
+            <>
+              <Blogs /> <AgroApi />
+            </>
+          }
+        />
         <Route path="/user-blogs" element={<UserBlogs />} />
         <Route path="/blog-details/:id" element={<BlogDetails />} />
         <Route path="/get-blog/:id" element={<GetBlog />} />

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Input } from "@material-tailwind/react";
 import toast from "react-hot-toast";
+import { MdDelete } from "react-icons/md";
 
 const CommentSection = () => {
   const { id } = useParams(); // Blog ID
@@ -75,6 +76,7 @@ const CommentSection = () => {
               placeholder="Add a comment"
               className="mb-2"
             />
+
             <Button onClick={handleAddComment} className=" mb-2">
               Post Comment
             </Button>

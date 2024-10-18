@@ -134,7 +134,7 @@ const GetBlog = () => {
             </div>
           </div>
           <Typography>{blog.description}</Typography>
-          <CommentSection /> {/* Add the CommentSection component here */}
+          <CommentSection />
         </div>
       </Reveal>
     </div>

@@ -52,8 +52,11 @@ const CardDefault = ({
   const handleReadMore = () => {
     navigate(`/get-blog/${id}`);
   };
-  return (
-    <Card className="mt-6 w-full md:w-96 transition-all  hover:border-b-2 hover:border-deep-orange-400 ">
+  return (  
+    <Card
+      onClick={handleReadMore}
+      className="mt-6 w-full md:w-96 transition-all  hover:border-b-2 hover:border-deep-orange-400 cursor-pointer "
+    >
       <CardHeader color="" className="relative h-56">
         <div className="flex justify-between items-center px-3 bg-green-200">
           <div className="flex gap-x-2 justify-center items-center">
@@ -95,9 +98,6 @@ const CardDefault = ({
       </CardBody>
       <CardFooter className="pt-0">
         <div className="flex justify-between items-center gap-x-2">
-          <Button onClick={handleReadMore} className=" transition-all">
-            Read More
-          </Button>
           {isUser && (
             <div className="flex justify-center items-center gap-x-4 cursor-pointer">
               <MdEdit

@@ -74,11 +74,6 @@ const UserDetails = () => {
     }
   };
 
-  const handleOpen = () => {
-    setOpen(!open);
-    navigate("/current-user/:id");
-  };
-
   return (
     <div className="flex justify-center items-center flex-col w-full">
       <Dialog
@@ -119,11 +114,10 @@ const UserDetails = () => {
             </Typography>
             <Input
               size="lg"
-              placeholder="Enter Image Url"
+              type="file" // Change to file input
               name="image"
-              value={inputs.image}
               onChange={handleChange}
-              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
+              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}

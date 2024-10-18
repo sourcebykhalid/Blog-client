@@ -55,6 +55,7 @@ function Profile() {
     );
   }
 
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   return (
     <>
       {user && (
@@ -64,7 +65,10 @@ function Profile() {
           className="flex flex-col items-center justify-center text-xl font-semibold bg-gray-300  md:w-2/4 h-96 md:h-screen  mx-auto rounded-md shadow-md shadow-orange-400"
         >
           <img
-            src={user.image}
+            src={
+              `${apiUrl}/uploads/${user.image.split("/").pop()}` ||
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOApFCSVByzhZorHUAP-J851JAYyOPtI1jdg&s"
+            }
             alt=""
             className=" w-20 h-20 rounded-full hover:scale-110 transition-all"
           />

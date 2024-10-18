@@ -30,9 +30,18 @@ function AllUsers() {
 
     fetchUserProfile();
   }, []);
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleString("en-US", options);
+  };
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   return (
     <div className=" ">
-      <List className=" grid grid-cols-2 md:grid-cols-3 gap-3 bg-gradient-to-b from-black/20 via-gray-100 to-black/35 min-h-screen pt-24 mx-2 rounded-md ">
+      <List className=" grid grid-cols-2 md:grid-cols-3 bg-gradient-to-b from-black/20 via-gray-100 to-black/35 min-h-screen pt-24 mx-2 rounded-md ">
         {users.map((user) => (
           <ListItem
             key={user._id}
@@ -44,8 +53,9 @@ function AllUsers() {
                 variant="circular"
                 alt="candice"
                 src={
-                  user.image ||
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOApFCSVByzhZorHUAP-J851JAYyOPtI1jdg&s"
+                  user.image
+                    ? `${apiUrl}/uploads/${user.image}`
+                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOApFCSVByzhZorHUAP-J851JAYyOPtI1jdg&s"
                 }
               />
             </ListItemPrefix>
@@ -53,8 +63,19 @@ function AllUsers() {
               <Typography variant="h6" color="blue-gray" className=" font-bold">
                 {user.username}
               </Typography>
-              <Typography variant="small" color="gray" className="font-normal">
+              <Typography
+                variant="small"
+                color="gray"
+                className=" text-gray-700 font-semibold"
+              >
                 {user.email}
+              </Typography>
+              <Typography
+                variant="small"
+                color="gray"
+                className="text-gray-600 font-semibold"
+              >
+                {formatDate(user.createdAt)}
               </Typography>
             </div>
           </ListItem>
