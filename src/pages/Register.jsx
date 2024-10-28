@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaBloggerB } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -17,35 +17,62 @@ const SimpleRegistrationForm = () => {
     name: "",
     email: "",
     password: "",
-    image: null, // Change to handle file
+    image: null,
   });
+  const [imagePreview, setImagePreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   const handleChange = (e) => {
-    if (e.target.name === "image") {
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      const file = files[0];
       setInputs((prevState) => ({
         ...prevState,
-        [e.target.name]: e.target.files[0], // Set file object
+        [name]: file,
       }));
+      setImagePreview(URL.createObjectURL(file));
     } else {
       setInputs((prevState) => ({
         ...prevState,
-        [e.target.name]: e.target.value,
+        [name]: value,
       }));
     }
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-    // Create FormData object
+    if (!inputs.name || !inputs.email || !inputs.password) {
+      return toast.error("All fields are required!");
+    }
+
+    if (!validateEmail(inputs.email)) {
+      return toast.error("Please enter a valid email address!");
+    }
+
     const formData = new FormData();
     formData.append("username", inputs.name);
     formData.append("email", inputs.email);
     formData.append("password", inputs.password);
     if (inputs.image) {
-      formData.append("image", inputs.image); // Append the file
+      formData.append("image", inputs.image);
     }
+
+    setLoading(true);
 
     try {
       const { data } = await axios.post(
@@ -53,7 +80,7 @@ const SimpleRegistrationForm = () => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Important for file uploads
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -61,18 +88,22 @@ const SimpleRegistrationForm = () => {
       if (data.success) {
         toast.success("User Registered Successfully");
         navigate("/login");
+        setInputs({ name: "", email: "", password: "", image: null });
+        setImagePreview(null);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Error during registration");
+      toast.error(error.response?.data?.message || "Error during registration");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center pt-16 ">
+    <div className="flex justify-center pt-16">
       <Card color="transparent" shadow={false}>
-        <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 cursor-pointer text-black font-extrabold ">
-          <h2 className="font-extrabold bg-gradient-to-r from-black via-blue-700 to-orange-500 bg-clip-text text-transparent  cursor-pointer">
+        <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 cursor-pointer text-black font-extrabold">
+          <h2 className="font-extrabold bg-gradient-to-r from-black via-blue-700 to-orange-500 bg-clip-text text-transparent cursor-pointer">
             blog
           </h2>
           <FaBloggerB />
@@ -102,10 +133,7 @@ const SimpleRegistrationForm = () => {
               name="name"
               value={inputs.name}
               onChange={handleChange}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Your Email
@@ -116,24 +144,25 @@ const SimpleRegistrationForm = () => {
               placeholder="name@mail.com"
               value={inputs.email}
               onChange={handleChange}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Image
             </Typography>
             <Input
               size="lg"
-              type="file" // Change to file input
+              type="file"
               name="image"
               onChange={handleChange}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
             />
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="mt-2 w-24 h-24 object-cover"
+              />
+            )}
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Password
             </Typography>
@@ -144,10 +173,7 @@ const SimpleRegistrationForm = () => {
               placeholder="********"
               value={inputs.password}
               onChange={handleChange}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
             />
           </div>
           <Checkbox
@@ -169,8 +195,8 @@ const SimpleRegistrationForm = () => {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button type="submit" className="mt-6" fullWidth>
-            Sign Up
+          <Button type="submit" className="mt-6" fullWidth disabled={loading}>
+            {loading ? "Signing Up..." : "Sign Up"}
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}

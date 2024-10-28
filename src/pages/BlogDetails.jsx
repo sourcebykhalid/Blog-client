@@ -19,7 +19,7 @@ const BlogDetails = () => {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
-
+  const [imageFile, setImageFile] = useState(null);
   const { id } = useParams();
 
   //get blog details
@@ -58,19 +58,29 @@ const BlogDetails = () => {
       category: value,
     }));
   };
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+    const formData = new FormData();
+    formData.append("title", inputs.title);
+    formData.append("description", inputs.description);
+    formData.append("category", inputs.category);
+    formData.append("user", localStorage.getItem("userId"));
+    if (imageFile) formData.append("image", imageFile); // Append image only if selected
+
     try {
       const { data } = await axios.put(
         `${apiUrl}/api/v1/blog/update-blog/${id}`,
+        formData,
         {
-          title: inputs.title,
-          description: inputs.description,
-          category: inputs.category,
-          image: inputs.image,
-          user: localStorage.getItem("userId"),
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
       if (data?.success) {
@@ -138,19 +148,9 @@ const BlogDetails = () => {
               <Option value="education">Education</Option>
             </Select>
             <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Image URL
+              Upload Image
             </Typography>
-            <Input
-              size="lg"
-              placeholder="Enter Image URL"
-              name="image"
-              value={inputs.image}
-              onChange={handleChange}
-              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-            />
+            <Input type="file" name="image" onChange={handleFileChange} />
           </div>
           <DialogFooter>
             <Button

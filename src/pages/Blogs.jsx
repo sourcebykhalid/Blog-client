@@ -43,7 +43,7 @@ function Blogs() {
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setCurrentPage(1); // Reset to first page on category change
-  };  
+  };
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;

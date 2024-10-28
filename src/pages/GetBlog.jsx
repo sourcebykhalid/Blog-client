@@ -72,18 +72,26 @@ const GetBlog = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
   }
 
   if (!blog) {
-    return <div>No blog found</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        No blog found
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col md:flex-row justify-center items-start pt-24 gap-x-3">
+    <div className="flex flex-col md:flex-row justify-center items-start pt-24 gap-x-6 bg-gradient-to-b from-gray-50 to-gray-200">
       <Reveal>
-        <div className="flex flex-col  justify-between py-1 md:py-2 items-center w-full md:w-5/6 h-full border-b border-green-400 rounded-md px-2">
-          <Typography className="text-sm">
+        <div className="flex flex-col justify-between py-3 md:py-5 items-center w-full md:w-5/6 h-full border-b border-green-400 rounded-md shadow-lg bg-white p-4">
+          <Typography className="text-xs md:text-sm text-gray-600">
             {formatDate(blog.createdAt)}
           </Typography>
 
@@ -91,49 +99,53 @@ const GetBlog = () => {
             <img
               src={blog.image}
               alt={blog.title}
-              className=" md:w-5/6 h-[18rem] md:h-[32rem]  bg-cover  rounded-md px-2 mb-4"
+              className="md:w-5/6 h-[18rem] md:h-[32rem] bg-cover rounded-md mb-4 shadow-lg"
             />
           )}
-          <Typography variant="h2" className="text-sm text-blue-500">
+          <Typography
+            variant="h5"
+            className="text-sm text-blue-500 font-semibold"
+          >
             #{blog.category}
           </Typography>
-          <Typography variant="h6">
-            <div className="flex gap-x-2 justify-center items-center font-bold text-gray-800 text-sm md:text-lg">
-              <FaUser />
-              {blog.user?.username}
-            </div>
+          <Typography
+            variant="h6"
+            className="flex gap-x-2 justify-center items-center font-bold text-gray-800 text-sm md:text-lg"
+          >
+            <FaUser className="text-blue-600" />
+            {blog.user?.username}
           </Typography>
         </div>
       </Reveal>
       <Reveal>
-        <div className="flex flex-col md:w-full px-3 md:px-0 mt-7 md:mt-0 ">
-          <div className="flex justify-between items-center">
+        <div className="flex flex-col md:w-full px-3 md:px-0 mt-5 md:mt-0">
+          <div className="flex justify-between items-center mb-4">
             <Typography
               variant="h2"
-              className="text-lg md:text-2xl text-gray-800 font-bold border-b border-green-400 rounded-md px-2 "
+              className="text-lg md:text-2xl text-gray-800 font-bold border-b border-green-400 rounded-md px-2"
             >
               {blog.title}
             </Typography>
-            <div>
-              {userId === blog.user?._id && isLogin ? (
-                <div className="flex justify-center items-center space-x-1">
-                  <Button
-                    onClick={handleEdit}
-                    className="hover:text-blue-500 transition-all p-3 md:px-4 rounded-md"
-                  >
-                    <FaEdit />
-                  </Button>
-                  <Button
-                    onClick={handleDelete}
-                    className="hover:text-red-500 transition-all p-3 md:px-4 rounded-md"
-                  >
-                    <MdDelete />
-                  </Button>
-                </div>
-              ) : null}
-            </div>
+            {userId === blog.user?._id && isLogin ? (
+              <div className="flex justify-center items-center space-x-2">
+                <Button
+                  onClick={handleEdit}
+                  className="flex items-center hover:text-blue-500 transition-all p-2 md:p-3 rounded-md bg-blue-100 shadow-md"
+                >
+                  <FaEdit className="mr-1" /> Edit
+                </Button>
+                <Button
+                  onClick={handleDelete}
+                  className="flex items-center hover:text-red-500 transition-all p-2 md:p-3 rounded-md bg-red-100 shadow-md"
+                >
+                  <MdDelete className="mr-1" /> Delete
+                </Button>
+              </div>
+            ) : null}
           </div>
-          <Typography>{blog.description}</Typography>
+          <Typography className="text-gray-700 mb-4">
+            {blog.description}
+          </Typography>
           <CommentSection />
         </div>
       </Reveal>

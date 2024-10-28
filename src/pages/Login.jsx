@@ -1,10 +1,10 @@
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { authActions } from "../redux/store";
+import { authActions } from "../redux/store"; // Import the auth actions
 import { FaBloggerB } from "react-icons/fa";
 
 const SimpleLoginForm = () => {
@@ -14,6 +14,15 @@ const SimpleLoginForm = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    // Check if user is already logged in by checking the token in localStorage
+    const token = localStorage.getItem("userToken");
+    if (token) {
+      dispatch(authActions.login(token)); // Update Redux state if token exists
+      navigate("/"); // Redirect to home if already logged in
+    }
+  }, [dispatch, navigate]);
 
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -33,9 +42,10 @@ const SimpleLoginForm = () => {
 
       if (data.success) {
         localStorage.setItem("userId", data.user._id);
-        dispatch(authActions.login());
+        localStorage.setItem("userToken", data.token); // Save the token to localStorage
+        dispatch(authActions.login(data.token)); // Dispatch login action with token
         toast.success("User Logged in Successfully");
-        navigate("/");
+        navigate("/"); // Redirect to home page
       } else {
         toast.error("Please enter correct credentials");
       }
@@ -46,10 +56,10 @@ const SimpleLoginForm = () => {
   };
 
   return (
-    <div className="flex justify-center w-full h-screen md:pt-20">
+    <div className="flex justify-center w-full h-screen pt-24 md:pt-20">
       <Card color="transparent" shadow={false}>
         <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 border-b-2 border-orange-600 cursor-pointer text-black font-extrabold ">
-          <h2 className="font-extrabold bg-gradient-to-r from-black via-blue-700 to-orange-500 bg-clip-text text-transparent  cursor-pointer">
+          <h2 className="font-extrabold bg-gradient-to-r from-black via-blue-700 to-orange-500 bg-clip-text text-transparent cursor-pointer">
             blog
           </h2>
           <FaBloggerB />

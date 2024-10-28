@@ -11,6 +11,7 @@ import axios from "axios";
 import { FaUser } from "react-icons/fa";
 import { MdDateRange, MdDelete, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+
 const CardDefault = ({
   title,
   description,
@@ -20,11 +21,9 @@ const CardDefault = ({
   time,
   id,
   isUser,
+  openEditModal, // Receive function from parent
 }) => {
   const navigate = useNavigate();
-  const handleEdit = () => {
-    navigate(`/blog-details/${id}`);
-  };
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
@@ -35,6 +34,7 @@ const CardDefault = ({
     };
     return new Date(dateString).toLocaleString("en-US", options);
   };
+
   const handleDelete = async () => {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
@@ -49,36 +49,32 @@ const CardDefault = ({
       console.log(error);
     }
   };
-  const handleReadMore = () => {
-    navigate(`/get-blog/${id}`);
+
+  const handleEdit = () => {
+    navigate(`/blog-details/${id}`);
   };
-  return (  
-    <Card
-      onClick={handleReadMore}
-      className="mt-6 w-full md:w-96 transition-all  hover:border-b-2 hover:border-deep-orange-400 cursor-pointer "
-    >
+
+  return (
+    <Card className="mt-6 w-full md:w-96 transition-all hover:border-b-2 hover:border-deep-orange-400 cursor-pointer">
       <CardHeader color="" className="relative h-56">
         <div className="flex justify-between items-center px-3 bg-green-200">
           <div className="flex gap-x-2 justify-center items-center">
             <FaUser />
-            <span className=" text-gray-900 text-sm font-bold ">
-              {username}
-            </span>
+            <span className="text-gray-900 text-sm font-bold">{username}</span>
           </div>
-
           <div className="flex items-center gap-2 text-xs">
             <MdDateRange />
             <span>{formatDate(time)}</span>
           </div>
         </div>
         <img
-          className="transition-all hover:scale-x-110 overflow-hidden w-full h-full  "
+          className="transition-all hover:scale-x-110 overflow-hidden w-full h-full"
           src={image}
           alt="card-image"
         />
       </CardHeader>
       <CardBody>
-        <div className="flex justify-between items-center ">
+        <div className="flex justify-between items-center">
           <Typography
             variant="h5"
             color="blue-gray"
@@ -110,6 +106,9 @@ const CardDefault = ({
               />
             </div>
           )}
+          <Button className=" p-2" onClick={() => navigate(`/get-blog/${id}`)}>
+            Read more
+          </Button>
         </div>
       </CardFooter>
     </Card>
