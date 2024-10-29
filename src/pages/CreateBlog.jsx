@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -15,13 +15,27 @@ import toast from "react-hot-toast";
 
 const CreateBlog = () => {
   const [open, setOpen] = useState(true);
-  const [imageFile, setImageFile] = useState(null); // New state for image file
+  const [imageFile, setImageFile] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen(!open);
-    navigate("/");
+    if (open) {
+      navigate("/"); // Navigate only if opening the dialog
+    }
   };
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    if (!id) {
+      toast.error("User authentication required. Please log in.");
+      navigate("/login");
+    } else {
+      setUserId(id);
+    }
+  }, [navigate]);
 
   const [inputs, setInputs] = useState({
     title: "",
@@ -45,29 +59,45 @@ const CreateBlog = () => {
   };
 
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    // Basic validation for image files
+    if (file && file.type.startsWith("image/")) {
+      setImageFile(file);
+    } else {
+      toast.error("Please upload a valid image file.");
+      setImageFile(null);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const id = localStorage.getItem("userId");
-      const formData = new FormData();
-      formData.append("title", inputs.title);
-      formData.append("description", inputs.description);
-      formData.append("category", inputs.category);
-      formData.append("image", imageFile); // Append the image file
-      formData.append("user", id);
+    if (
+      !inputs.title ||
+      !inputs.description ||
+      !inputs.category ||
+      !imageFile
+    ) {
+      toast.error("All fields are required.");
+      return;
+    }
 
+    const formData = new FormData();
+    formData.append("title", inputs.title);
+    formData.append("description", inputs.description);
+    formData.append("category", inputs.category);
+    formData.append("image", imageFile);
+    formData.append("user", userId);
+
+    setLoading(true); // Set loading to true
+
+    try {
       const apiUrl = import.meta.env.VITE_API_BASE_URL;
       const { data } = await axios.post(
         `${apiUrl}/api/v1/blog/create-blog`,
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
@@ -81,8 +111,10 @@ const CreateBlog = () => {
     } catch (error) {
       console.error("Error creating blog:", error);
       toast.error(
-        "An error occurred while creating the blog. Please try again later."
+        "An error occurred while creating the blog. Please try again."
       );
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -108,6 +140,8 @@ const CreateBlog = () => {
               name="title"
               value={inputs.title}
               onChange={handleChange}
+              label="Title here"
+              required // Add required attribute
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Description
@@ -117,6 +151,7 @@ const CreateBlog = () => {
               value={inputs.description}
               onChange={handleChange}
               label="Tell your story"
+              required // Add required attribute
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Category
@@ -125,6 +160,7 @@ const CreateBlog = () => {
               label="Select Category"
               value={inputs.category}
               onChange={handleCategoryChange}
+              required // Add required attribute
             >
               <Option value="tech">Technology</Option>
               <Option value="lifestyle">Lifestyle</Option>
@@ -132,11 +168,16 @@ const CreateBlog = () => {
               <Option value="education">Education</Option>
               <Option value="weather">Weather</Option>
             </Select>
-
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Upload Image
             </Typography>
-            <Input type="file" name="image" onChange={handleFileChange} />
+            <Input
+              type="file"
+              name="image"
+              onChange={handleFileChange}
+              required
+            />{" "}
+            {/* Add required */}
           </div>
 
           <DialogFooter>
@@ -148,8 +189,13 @@ const CreateBlog = () => {
             >
               Cancel
             </Button>
-            <Button type="submit" variant="gradient" color="green">
-              Publish
+            <Button
+              type="submit"
+              variant="gradient"
+              color="green"
+              disabled={loading}
+            >
+              {loading ? "Publishing..." : "Publish"} {/* Loading feedback */}
             </Button>
           </DialogFooter>
         </form>

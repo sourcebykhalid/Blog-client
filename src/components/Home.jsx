@@ -8,8 +8,9 @@ import {
   CardHeader,
   CardBody,
 } from "@material-tailwind/react";
-import { FaBloggerB, FaUser } from "react-icons/fa";
-import { MdDateRange } from "react-icons/md";
+import { FaBloggerB, FaUser, FaEye } from "react-icons/fa";
+import { MdDateRange, MdCategory, MdTrendingUp } from "react-icons/md";
+import { AiOutlineShareAlt, AiOutlineComment } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import Reveal from "./Reveal";
@@ -53,10 +54,50 @@ const Home = ({ username }) => {
     navigate(`/get-blog/${id}`);
   };
 
+  // New Features Section component data
+  const features = [
+    {
+      title: "Explore Diverse Categories",
+      description:
+        "Find content across various topics including tech, lifestyle, travel, and more, tailored to your interests.",
+      icon: <MdCategory className="text-purple-400 text-5xl" />,
+    },
+    {
+      title: "Trending Blogs",
+      description:
+        "Stay updated with what's popular and trending. Discover the most engaging posts in real-time.",
+      icon: <MdTrendingUp className="text-blue-500 text-5xl" />,
+    },
+    {
+      title: "Connect with Authors",
+      description:
+        "Interact with writers, follow their journey, and contribute to the community through meaningful discussions.",
+      icon: <FaUser className="text-green-400 text-5xl" />,
+    },
+    {
+      title: "Share Your Thoughts",
+      description:
+        "Comment, share, and engage with the community. Your voice matters in building a vibrant blogosphere.",
+      icon: <AiOutlineComment className="text-pink-400 text-5xl" />,
+    },
+    {
+      title: "Bookmark & Save",
+      description:
+        "Easily save your favorite articles and build your personalized reading list for future reference.",
+      icon: <FaEye className="text-yellow-400 text-5xl" />,
+    },
+    {
+      title: "Seamless Sharing",
+      description:
+        "Share inspiring content with friends and followers across social platforms with just a click.",
+      icon: <AiOutlineShareAlt className="text-red-400 text-5xl" />,
+    },
+  ];
+
   return (
     <div className="bg-gradient-to-b from-gray-800 to-black min-h-screen text-white font-body">
       {/* Hero Section */}
-      <div className="relative flex flex-col justify-center items-center py-40">
+      <div className="relative flex flex-col justify-center items-center gap-y-12 py-40">
         <motion.h1
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,10 +110,12 @@ const Home = ({ username }) => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-lg md:text-xl text-center max-w-2xl mt-4 mx-6 p-2 bg-gray-900 rounded-lg shadow-lg"
+          className="text-lg md:text-xl text-center max-w-2xl mt-4 mx-6 p-2 bg-gray-900 rounded-lg shadow-lg flex flex-col items-center justify-center gap-3"
         >
+          {/* Large icon */}
           Join a community of writers and readers. Explore engaging articles,
           share your thoughts, and elevate your blogging experience!
+          <FaBloggerB className="text-9xl font-extrabold text-cyan-400" />
         </motion.p>
       </div>
       {!isLogin && (
@@ -98,7 +141,7 @@ const Home = ({ username }) => {
               key={blog._id}
               onClick={() => handleReadMore(blog._id)}
               fullWidth
-              className="group w-full sm:w-96 hover:scale-105 transition-transform cursor-pointer shadow-lg bg-gray-900 border border-gray-700"
+              className="group w-full h-96 sm:w-96 hover:scale-105 transition-transform cursor-pointer shadow-lg bg-gray-900 border border-gray-700"
             >
               <Reveal>
                 <CardHeader color="blue" className="relative h-56">
@@ -141,28 +184,52 @@ const Home = ({ username }) => {
           ))}
         </div>
       </div>
-      {/* About Section */}
-      <div className="py-24 text-gray-400">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <Reveal>
-            <Typography
-              variant="h2"
-              className="mb-4 text-cyan-400 font-bold border-b-2 border-purple-500 rounded-md px-2 w-fit mx-auto"
+
+      {/* Features Section */}
+      <div className="py-16 md:py-24 bg-gray-900">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2 }}
+          className="text-center mb-10"
+        >
+          <Typography
+            variant="h2"
+            className="text-cyan-400 font-bold border-b-2 border-purple-500 p-2 w-fit mx-auto"
+          >
+            BlogBeacon Features
+          </Typography>
+        </motion.div>
+        <div className="flex flex-wrap justify-center items-center gap-6 gap-y-10 px-4 pb-32">
+          {features.map((feature, index) => (
+            <Card
+              key={index}
+              className="group w-80 sm:w-1/3 p-4 bg-gray-800 border border-gray-700 shadow-lg hover:scale-105 transition-transform duration-300"
             >
-              About BlogBeacon
-            </Typography>
-          </Reveal>
-          <Reveal>
-            <Typography className="mb-8">
-              BlogBeacon is your go-to source for the latest and greatest blog
-              posts on a variety of topics. Whether you&apos;re interested in
-              tech, lifestyle, travel, or more, we&apos;ve got you covered with
-              insightful articles from passionate writers.
-            </Typography>
-          </Reveal>
+              <CardHeader
+                variant="gradient"
+                className="flex justify-center items-center bg-gray-800 rounded-md"
+              >
+                {feature.icon}
+              </CardHeader>
+              <CardBody className="text-center">
+                <Typography
+                  variant="h5"
+                  className="font-semibold text-purple-400 group-hover:text-cyan-500 transition-colors duration-300"
+                >
+                  {feature.title}
+                </Typography>
+                <Typography className="text-gray-400 mt-2">
+                  {feature.description}
+                </Typography>
+              </CardBody>
+            </Card>
+          ))}
         </div>
       </div>
-      <p className="w-full text-center text-sm text-gray-300 bg-gray-800 backdrop-blur-md p-2 flex justify-center items-center">
+
+      {/* Footer */}
+      <p className="w-full text-center text-sm text-gray-300 bg-gray-800 backdrop-blur-md p-2 flex justify-center items-center ">
         © Khalid | Blog <FaBloggerB /> eacon, 2024. All rights reserved.
       </p>
     </div>

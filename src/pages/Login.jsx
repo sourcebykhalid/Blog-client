@@ -19,7 +19,9 @@ const SimpleLoginForm = () => {
     // Check if user is already logged in by checking the token in localStorage
     const token = localStorage.getItem("userToken");
     if (token) {
-      dispatch(authActions.login(token)); // Update Redux state if token exists
+      dispatch(
+        authActions.login({ token, userId: localStorage.getItem("userId") })
+      ); // Update Redux state if token exists
       navigate("/"); // Redirect to home if already logged in
     }
   }, [dispatch, navigate]);
@@ -34,6 +36,7 @@ const SimpleLoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
     try {
       const { data } = await axios.post(`${apiUrl}/api/v1/user/login`, {
         email: inputs.email,
@@ -41,17 +44,23 @@ const SimpleLoginForm = () => {
       });
 
       if (data.success) {
-        localStorage.setItem("userId", data.user._id);
+        // Store userId and token in localStorage
+        localStorage.setItem("userId", data.user._id); // Ensure this matches the controller response
         localStorage.setItem("userToken", data.token); // Save the token to localStorage
-        dispatch(authActions.login(data.token)); // Dispatch login action with token
+
+        // Dispatch login action with both token and userId
+        dispatch(
+          authActions.login({ token: data.token, userId: data.user._id }) // Ensure this is correct
+        );
+
         toast.success("User Logged in Successfully");
         navigate("/"); // Redirect to home page
       } else {
         toast.error("Please enter correct credentials");
       }
     } catch (error) {
-      toast.error("Please enter correct login credentials");
-      console.log(error);
+      toast.error("An error occurred while logging in. Please try again.");
+      console.error("Login error:", error);
     }
   };
 

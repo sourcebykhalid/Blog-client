@@ -9,44 +9,40 @@ import axios from "axios";
 
 function Header() {
   const isLogin = useSelector((state) => state.isLogin);
+  const userId = useSelector((state) => state.userId);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [image, setImage] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
   const [blogs, setBlogs] = useState([]);
   const [openNav, setOpenNav] = useState(false);
   const [user, setUser] = useState({});
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const apiUrl = import.meta.env.VITE_API_BASE_URL;
       try {
         const { data } = await axios.get(`${apiUrl}/api/v1/blog/all-blogs`);
-        if (data?.success) {
-          setBlogs(data.blogs);
-        } else {
-          toast.error("An error occurred while fetching blogs");
-        }
+        if (data?.success) setBlogs(data.blogs);
       } catch (error) {
         toast.error("An error occurred while fetching blogs");
-        console.error("Error fetching blogs:", error);
       }
     };
-
     fetchBlogs();
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
     if (userId) {
       const getUserDetail = async () => {
         try {
           const { data } = await axios.get(
-            `${
-              import.meta.env.VITE_API_BASE_URL
-            }/api/v1/user/current-user/${userId}`
+            `${apiUrl}/api/v1/user/current-user/${userId}`
           );
           if (data?.success) {
             setUser(data.userProfile);
+            if (data.userProfile.image) {
+              setImage(`${apiUrl}/uploads/${data.userProfile.image}`);
+            }
           }
         } catch (error) {
           console.error("Error fetching user details:", error);
@@ -54,7 +50,7 @@ function Header() {
       };
       getUserDetail();
     }
-  }, []);
+  }, [userId, apiUrl]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -65,16 +61,12 @@ function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    setOpenNav(false);
-  }, [location]);
+  useEffect(() => setOpenNav(false), [location]);
 
   const handleLogout = () => {
     dispatch(authActions.logout());
     toast.success("Logout successfully");
   };
-
-  const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   const navList = useMemo(
     () => (
@@ -113,22 +105,16 @@ function Header() {
                 Logout <FaSignOutAlt />
               </li>
             </NavLink>
-            <NavLink
-              to={`/current-user/${localStorage.getItem("userId")}`}
-              key="user-profile"
-            >
+            <NavLink to={`/current-user/${userId}`} key="user-profile">
               <li className="hover:text-gray-300 cursor-pointer text-black p-2 rounded-full transition-all hover:scale-105">
                 <img
-                  src={
-                    `${apiUrl}/uploads/${user.image}` ||
-                    user.image ||
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOApFCSVByzhZorHUAP-J851JAYyOPtI1jdg&s"
-                  }
+                  src={image || "https://via.placeholder.com/32"}
                   alt={user.username || "User"}
                   className="w-8 h-8 rounded-full"
                   loading="lazy"
                   style={{ display: imageLoaded ? "block" : "none" }}
                   onLoad={() => setImageLoaded(true)}
+                  onError={() => setImage("https://via.placeholder.com/32")}
                 />
               </li>
             </NavLink>
@@ -149,13 +135,13 @@ function Header() {
         )}
       </ul>
     ),
-    [isLogin, user]
+    [isLogin, user, userId, image]
   );
 
   return (
-    <div className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-blue-gray-200 text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4 font-body">
+    <div className="z-30 w-full flex flex-wrap sm:justify-between items-center backdrop-blur-md backdrop-contrast-100 fixed text-blue-gray-400 text-sm font-semibold px-4 py-5 md:gap-y-0 gap-x-4 font-body">
       <div className="flex justify-center items-center text-base md:text-xl rounded-md bottom-1 px-1 cursor-pointer border-b-2 border-orange-500 ">
-        <h2 className="flex gap-x-1 font-extrabold bg-gradient-to-r from-black via-gray-700 to-green-500 bg-clip-text text-transparent cursor-pointer">
+        <h2 className="flex gap-x-1 font-extrabold bg-gradient-to-r from-cyan-400 via-purple-500 to-blue-600 bg-clip-text text-transparent cursor-pointer">
           <NavLink
             className="flex w-fit flex-row justify-center items-center"
             to="/"
@@ -191,8 +177,8 @@ function Header() {
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
             fill="none"
+            className="h-6 w-6"
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={2}
@@ -205,7 +191,9 @@ function Header() {
           </svg>
         )}
       </IconButton>
-      <MobileNav open={openNav}>{navList}</MobileNav>
+      <MobileNav open={openNav} className="overflow-scroll z-50">
+        {navList}
+      </MobileNav>
     </div>
   );
 }

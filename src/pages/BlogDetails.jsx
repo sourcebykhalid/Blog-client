@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import {
   Button,
   Dialog,
@@ -16,13 +15,13 @@ import toast from "react-hot-toast";
 
 const BlogDetails = () => {
   const [blog, setBlog] = useState({});
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
   const [imageFile, setImageFile] = useState(null);
   const { id } = useParams();
 
-  //get blog details
+  // Get blog details
   const getBlogDetail = async () => {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     try {
@@ -33,11 +32,13 @@ const BlogDetails = () => {
           title: data.blog.title,
           description: data.blog.description,
           category: data.blog.category,
-          image: data.blog.image,
+          image: data.blog.image, // Store the existing image URL
         });
+        setOpen(true); // Open dialog only after successful fetch
       }
     } catch (error) {
       console.error(error);
+      toast.error("Failed to fetch blog details.");
     }
   };
 
@@ -58,6 +59,7 @@ const BlogDetails = () => {
       category: value,
     }));
   };
+
   const handleFileChange = (e) => {
     setImageFile(e.target.files[0]);
   };
@@ -71,7 +73,7 @@ const BlogDetails = () => {
     formData.append("description", inputs.description);
     formData.append("category", inputs.category);
     formData.append("user", localStorage.getItem("userId"));
-    if (imageFile) formData.append("image", imageFile); // Append image only if selected
+    if (imageFile) formData.append("image", imageFile);
 
     try {
       const { data } = await axios.put(
@@ -83,19 +85,26 @@ const BlogDetails = () => {
           },
         }
       );
+
       if (data?.success) {
         toast.success("Blog updated successfully");
+        setInputs({}); // Reset inputs after successful update
         navigate("/user-blogs");
-        setOpen(false); // Close the dialog
+        setOpen(false);
+      } else {
+        toast.error(data.message || "Failed to update the blog.");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Update failed:", error);
+      toast.error("An error occurred while updating the blog.");
     }
   };
 
   const handleOpen = () => {
     setOpen(!open);
-    navigate("/all-blogs");
+    if (!open) {
+      navigate("/all-blogs");
+    }
   };
 
   return (
@@ -150,7 +159,7 @@ const BlogDetails = () => {
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Upload Image
             </Typography>
-            <Input type="file" name="image" onChange={handleFileChange} />
+            <Input type="file" name="image" onCha nge={handleFileChange} />
           </div>
           <DialogFooter>
             <Button

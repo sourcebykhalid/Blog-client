@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Button,
@@ -13,11 +13,12 @@ import toast from "react-hot-toast";
 
 const UserDetails = () => {
   const [user, setUser] = useState({});
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
+  const [imageFile, setImageFile] = useState(null); // State for the uploaded image
 
-  //get blog details
+  // Get user details
   const getUserDetail = async () => {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const userId = localStorage.getItem("userId");
@@ -35,6 +36,7 @@ const UserDetails = () => {
       }
     } catch (error) {
       console.error(error);
+      toast.error("Error fetching user details");
     }
   };
 
@@ -43,27 +45,39 @@ const UserDetails = () => {
   }, []);
 
   const handleChange = (e) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === "image") {
+      setImageFile(e.target.files[0]); // Capture the file
+    } else {
+      setInputs((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const userId = localStorage.getItem("userId");
+      const formData = new FormData();
+      formData.append("username", inputs.username);
+      formData.append("email", inputs.email);
+      if (imageFile) {
+        formData.append("image", imageFile); // Append the image file if it exists
+      }
+
       const { data } = await axios.put(
         `${
           import.meta.env.VITE_API_BASE_URL
         }/api/v1/user/update-user/${userId}`,
+        formData,
         {
-          username: inputs.username,
-          email: inputs.email,
-          image: inputs.image,
-          user: localStorage.getItem("userId"),
+          headers: {
+            "Content-Type": "multipart/form-data", // Important for file upload
+          },
         }
       );
+
       if (data?.success) {
         toast.success("User updated successfully");
         navigate("/user-blogs");
@@ -71,7 +85,12 @@ const UserDetails = () => {
       }
     } catch (error) {
       console.error(error);
+      toast.error("Error updating user details");
     }
+  };
+
+  const handleOpen = () => {
+    setOpen(!open); // Toggle dialog visibility
   };
 
   return (
@@ -114,10 +133,10 @@ const UserDetails = () => {
             </Typography>
             <Input
               size="lg"
-              type="file" // Change to file input
+              type="file" // Keep as file input
               name="image"
               onChange={handleChange}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
