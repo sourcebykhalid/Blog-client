@@ -66,7 +66,7 @@ function Blogs() {
   return (
     <>
       {isLogin && (
-        <div className="flex flex-col items-center bg-gradient-to-r from-orange-300 via-amber-200 to-lime-200">
+        <div className="flex flex-col items-center bg-gradient-to-br from-lime-400 via-green-200 to-deep-orange-400">
           <CategoryTabs
             selectedCategory={selectedCategory}
             handleCategoryChange={handleCategoryChange}
@@ -133,7 +133,7 @@ const CategoryTabs = ({ selectedCategory, handleCategoryChange }) => {
 
 const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
   const pageNumbers = [];
-
+  
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }

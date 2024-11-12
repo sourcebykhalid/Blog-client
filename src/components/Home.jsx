@@ -95,7 +95,7 @@ const Home = ({ username }) => {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-gray-800 to-black min-h-screen text-white font-body">
+    <div className="bg-gradient-to-b from-gray-800 to-black min-h-screen text-gray-300 font-body">
       {/* Hero Section */}
       <div className="relative flex flex-col justify-center items-center gap-y-12 py-40">
         <motion.h1
@@ -119,9 +119,15 @@ const Home = ({ username }) => {
         </motion.p>
       </div>
       {!isLogin && (
-        <div className="flex justify-center items-center text-xl gap-x-3 border-b border-green-400 rounded-md p-2 md:w-1/2 mx-auto mb-5 md:mb-12">
-          Please <Button onClick={() => navigate("/login")}>Login</Button> to
-          add posts
+        <div className="flex justify-center items-center text-xl gap-x-3 border-b border-green-400 text-gray-300 rounded-md p-2 md:w-1/2 mx-auto mb-5 md:mb-12">
+          Please{" "}
+          <Button
+            className="bg-green-500 text-gray-200  transition-all hover:-skew-x-2 hover:border-b-4 hover:border-r-4 hover:border-black rounded-sm"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </Button>{" "}
+          to add posts
         </div>
       )}
 

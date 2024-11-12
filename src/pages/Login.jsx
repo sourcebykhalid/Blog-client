@@ -119,7 +119,11 @@ const SimpleLoginForm = () => {
               }}
             />
           </div>
-          <Button type="submit" className="mt-6" fullWidth>
+          <Button
+            type="submit"
+            className="mt-6  text-gray-200  transition-all hover:-skew-x-2 hover:border-b-4 hover:border-r-4 hover:border-green-500 rounded-sm"
+            fullWidth
+          >
             Login
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">

@@ -121,7 +121,7 @@ const CreateBlog = () => {
   return (
     <div className="flex justify-center items-center flex-col w-full">
       <Dialog
-        className="flex justify-center items-center bg-gray-200"
+        className="flex justify-center items-center bg-blue-gray-100"
         open={open}
         handler={handleOpen}
       >
@@ -172,6 +172,7 @@ const CreateBlog = () => {
               Upload Image
             </Typography>
             <Input
+              className=" cursor-pointer"
               type="file"
               name="image"
               onChange={handleFileChange}
@@ -190,6 +191,7 @@ const CreateBlog = () => {
               Cancel
             </Button>
             <Button
+              className="bg-green-500 text-gray-200  transition-all hover:-skew-x-2 hover:border-b-4 hover:border-r-4 hover:border-black rounded"
               type="submit"
               variant="gradient"
               color="green"

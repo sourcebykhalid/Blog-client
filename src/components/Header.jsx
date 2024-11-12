@@ -40,9 +40,7 @@ function Header() {
           );
           if (data?.success) {
             setUser(data.userProfile);
-            if (data.userProfile.image) {
-              setImage(`${apiUrl}/uploads/${data.userProfile.image}`);
-            }
+            setImage(`${apiUrl}/uploads/${data.userProfile.image}`);
           }
         } catch (error) {
           console.error("Error fetching user details:", error);
@@ -108,26 +106,26 @@ function Header() {
             <NavLink to={`/current-user/${userId}`} key="user-profile">
               <li className="hover:text-gray-300 cursor-pointer text-black p-2 rounded-full transition-all hover:scale-105">
                 <img
-                  src={image || "https://via.placeholder.com/32"}
+                  src={imageLoaded ? image : "https://via.placeholder.com/32"}
                   alt={user.username || "User"}
                   className="w-8 h-8 rounded-full"
                   loading="lazy"
-                  style={{ display: imageLoaded ? "block" : "none" }}
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImage("https://via.placeholder.com/32")}
                 />
+                {!imageLoaded && <span className="text-sm">Loading...</span>}
               </li>
             </NavLink>
           </>
         ) : (
           <div className="flex flex-col md:flex-row justify-center items-center gap-y-3 gap-x-2">
             <NavLink to="/login" key="login">
-              <li className="px-3 py-1 border border-orange-600 rounded-sm transition-all hover:scale-105">
+              <li className="px-3 py-1 bg-green-500 text-gray-200  transition-all hover:-skew-x-2 hover:border-b-4 hover:border-r-4 hover:border-black">
                 Login
               </li>
             </NavLink>
             <NavLink to="/register" key="register">
-              <li className="bg-orange-600 px-3 py-1 text-black rounded-sm border border-orange-600 transition-all hover:scale-105">
+              <li className="bg-orange-600 px-3 py-1 text-black rounded-sm border border-orange-600 transition-all hover:scale-105 hover:-skew-x-2 hover:border-b-4 hover:border-r-4 hover:border-black">
                 Get Started Free
               </li>
             </NavLink>
@@ -135,7 +133,7 @@ function Header() {
         )}
       </ul>
     ),
-    [isLogin, user, userId, image]
+    [isLogin, user, userId, image, imageLoaded]
   );
 
   return (

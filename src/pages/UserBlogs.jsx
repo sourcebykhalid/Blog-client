@@ -21,7 +21,7 @@ function UserBlogs() {
     getUserBlogs();
   }, []);
   return (
-    <div className="pt-24 min-h-screen bg-gradient-to-r from-orange-400 via-amber-100 to-lime-200  ">
+    <div className="pt-24 min-h-screen bg-gradient-to-br from-lime-400 via-green-200 to-deep-orange-400  ">
       <div className="grid gap-x-2 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-2 md:px-9 ">
         {blogs && blogs.length > 0 ? (
           blogs.map((blog) => (
