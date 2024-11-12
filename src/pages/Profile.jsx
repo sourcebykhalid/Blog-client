@@ -51,6 +51,9 @@ function Profile() {
     () => fetchUserProfile(userId),
     {
       enabled: !!userId, // Only run query if userId exists
+      staleTime: 60000, // cache data for 1 minute
+      cacheTime: 1000000, // keep data in cache for a long time
+      refetchOnWindowFocus: false,
       onError: () => {
         toast.error("Failed to fetch user");
         dispatch(authActions.logout());
