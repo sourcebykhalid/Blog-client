@@ -40,7 +40,9 @@ function Header() {
           );
           if (data?.success) {
             setUser(data.userProfile);
-            setImage(`${apiUrl}/uploads/${data.userProfile.image}`);
+            if (data.userProfile.image) {
+              setImage(`${apiUrl}/uploads/${data.userProfile.image}`);
+            }
           }
         } catch (error) {
           console.error("Error fetching user details:", error);
@@ -106,14 +108,14 @@ function Header() {
             <NavLink to={`/current-user/${userId}`} key="user-profile">
               <li className="hover:text-gray-300 cursor-pointer text-black p-2 rounded-full transition-all hover:scale-105">
                 <img
-                  src={imageLoaded ? image : "https://via.placeholder.com/32"}
+                  src={image || "https://via.placeholder.com/32"}
                   alt={user.username || "User"}
                   className="w-8 h-8 rounded-full"
                   loading="lazy"
+                  style={{ display: imageLoaded ? "block" : "none" }}
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImage("https://via.placeholder.com/32")}
                 />
-                {!imageLoaded && <span className="text-sm">Loading...</span>}
               </li>
             </NavLink>
           </>
@@ -133,7 +135,7 @@ function Header() {
         )}
       </ul>
     ),
-    [isLogin, user, userId, image, imageLoaded]
+    [isLogin, user, userId, image]
   );
 
   return (
